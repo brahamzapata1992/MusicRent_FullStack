@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useApi } from '../../../../../context/ApiContext';  
+import { useApi } from '../../../../../context/ApiContext';
+import API_URL from '../../../../../config/api';
 import feliz from "../../../../../assets/admin/admin_product/icon-creation-product.png";
 import { Link } from 'react-router-dom';
 import './CrearProducto.css';

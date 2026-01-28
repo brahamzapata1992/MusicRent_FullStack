@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import API_URL from '../../../../../../config/api';
 import './Caracteristicas.css';
 
 const Caracteristicas = () => {

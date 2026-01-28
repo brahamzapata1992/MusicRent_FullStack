@@ -57,7 +57,7 @@ export const ApiProvider = ({ children }) => {
 
   const deleteCaracteristica = async (id) => {  
     try {
-      const response = await fetch(`http://localhost:8081/api/admin/features/delete/${id}`, {
+      const response = await fetch(`${API_URL}/api/admin/features/delete/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

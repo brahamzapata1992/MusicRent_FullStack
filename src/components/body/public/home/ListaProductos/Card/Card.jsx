@@ -4,6 +4,7 @@ import { RiStarSLine } from 'react-icons/ri';
 import { MdOutlineFavorite } from 'react-icons/md';
 import { Link, useNavigate } from 'react-router-dom';
 import { useApi } from '../../../../../../context/ApiContext';
+import API_URL from '../../../../../../config/api';
 import './Card.css';
 
 const Card = ({ id, name, image, price, isFavorite, onFavoriteClick }) => {

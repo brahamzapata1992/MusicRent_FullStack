@@ -163,56 +163,38 @@ const PublicDetalleProducto = () => {
             {/* container izquierda imagenes */}
             <div className="imagenes-detalle-producto-container">
               {/* imagen 1 */}
-              <div className='container-detalle-producto-imagen1'>
-              {product.images && product.images.length > 0 && (
-                  <img
-                    src={`data:image/jpeg;base64,${product.images[0].imageData}`}
-                    alt={`${product.name}-image-0`}
-                    className="img-1"
-                  />
-                )}
-              </div>
+              {renderImage(
+                product.images && product.images[0] ? product.images[0].imageData : null,
+                0,
+                'img-1',
+                'container-detalle-producto-imagen1'
+              )}
               {/* contenedor imagenes pequenas */}
               <div className='container-galeria-detalle-producto'>
-                <div className='container-detalle-producto-imagen2'>
-                {product.images && product.images.length > 1 && (
-                    <img
-                      src={`data:image/jpeg;base64,${product.images[1].imageData}`}
-                      alt={`${product.name}-image-1`}
-                      className="img-2"
-                    />
-                  )}
-                </div>
-                {/* imagen 3 */}
-                <div className='container-detalle-producto-imagen3'>
-                {product.images && product.images.length > 2 && (
-                    <img
-                      src={`data:image/jpeg;base64,${product.images[2].imageData}`}
-                      alt={`${product.name}-image-2`} 
-                      className="img-3"
-                    />
-                  )}
-                </div>
-                {/* imagen 4 */}
-                <div className='container-detalle-producto-imagen4'>
-                {product.images && product.images.length > 3 && (
-                    <img
-                      src={`data:image/jpeg;base64,${product.images[3].imageData}`}
-                      alt={`${product.name}-image-3`}
-                      className="img-4"
-                    />
-                  )}
-                </div>
-                {/* imagen 5 */}
-                <div className='container-detalle-producto-imagen5'>
-                {product.images && product.images.length > 4 && (
-                    <img
-                      src={`data:image/jpeg;base64,${product.images[4].imageData}`}
-                      alt={`${product.name}-image-4`}
-                      className="img-5"
-                    />
-                  )}                  
-                </div>                             
+                {renderImage(
+                  product.images && product.images[1] ? product.images[1].imageData : null,
+                  1,
+                  'img-2',
+                  'container-detalle-producto-imagen2'
+                )}
+                {renderImage(
+                  product.images && product.images[2] ? product.images[2].imageData : null,
+                  2,
+                  'img-3',
+                  'container-detalle-producto-imagen3'
+                )}
+                {renderImage(
+                  product.images && product.images[3] ? product.images[3].imageData : null,
+                  3,
+                  'img-4',
+                  'container-detalle-producto-imagen4'
+                )}
+                {renderImage(
+                  product.images && product.images[4] ? product.images[4].imageData : null,
+                  4,
+                  'img-5',
+                  'container-detalle-producto-imagen5'
+                )}
               </div>
               <div className='container-galeria-fotos-detalle-producto' onClick={openGallery}>
                 <TbPhotoShare className='icono-galeria-detalle-producto'/><p className='ver-mas-galeria-detalle-producto'>Ver Mas</p>

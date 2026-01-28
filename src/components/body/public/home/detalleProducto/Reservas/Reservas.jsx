@@ -41,7 +41,7 @@ const Reservas = () => {
 
     const handleConfirmReservation = async () => {
       try {
-          const response = await fetch('http://localhost:8081/api/customer/reservation/create', {
+          const response = await fetch(`${API_URL}/api/customer/reservation/create`, {
               method: 'POST',
               headers: {
                   'Content-Type': 'application/json',

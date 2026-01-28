@@ -6,9 +6,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useApi } from '../../../../../../context/ApiContext';
 import API_URL from '../../../../../../config/api';
 import './Card.css';
+import './CardSkeleton.css';
 
 const Card = ({ id, name, image, price, isFavorite, onFavoriteClick }) => {
     const [isClicked, setIsClicked] = useState(isFavorite);
+    const [imageLoaded, setImageLoaded] = useState(false);
+    const [imageError, setImageError] = useState(false);
     const { loggedInUser } = useApi();
     const navigate = useNavigate();
 

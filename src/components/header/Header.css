@@ -5,281 +5,401 @@
     display: flex;
     justify-content: space-between;
     width: 100vw;
-    height: 13vh;    
+    height: 80px;    
     align-items: center;
-    padding-left: 40px;
-    background-color: white;   
+    padding: 0 40px;
+    background-color: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
+
 .logo-header{
-    width: 30%;
+    height: 50px;
+    width: auto;
+    max-width: 150px;
+    object-fit: contain;
 }
+
 .contenedor-header-botones{
     display: flex;
-    padding-right: 60px;
-    justify-content: space-between;    
+    gap: 15px;
 }
-.boton-header-inisiar{
-    cursor: pointer;
-    display: flex;
-    justify-content:center;
-    align-items: center;
-    width: 149px;
-    height: 49px;
-    border-radius: 20px;
-    border: none;
-    background-color: #FDA310;
-    color: white;
-    margin-right: 20px;
-    font-size: 19px;    
-}
+
+.boton-header-inisiar,
 .boton-header-cerrar{
     cursor: pointer;
     display: flex;
-    justify-content:center;
+    justify-content: center;
     align-items: center;
-    width: 149px;
-    height: 49px;
-    border-radius: 20px;
+    gap: 8px;
+    min-width: 140px;
+    height: 45px;
+    border-radius: 25px;
     border: none;
+    font-size: 16px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.boton-header-inisiar{
+    background-color: #FDA310;
+    color: white;
+}
+
+.boton-header-cerrar{
     background-color: #000000;
     color: white;
-    font-size: 19px;
 }
+
 .boton-header-inisiar:hover{
     background-color: #f7b141;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(253, 163, 16, 0.3);
 }
+
 .boton-header-cerrar:hover{
     background-color: #232323;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
+
 .boton-menu-header-hamburger{
     display: none;
+    font-size: 32px;
+    cursor: pointer;
+    color: #333;
+    transition: color 0.3s ease;
 }
+
+.boton-menu-header-hamburger:hover{
+    color: #FDA310;
+}
+
 .contenedor-header-logo-lema{
     display: flex;
-    flex-direction: column;    
+    flex-direction: column;
+    gap: 5px;
 }
+
 .lema-header-text{
-    text-align: left;
+    font-size: 14px;
+    color: #666;
+    max-width: 300px;
 }
+
 .link-botones-regi-login{
     text-decoration: none;
 }
+
 .circle-login-avatar-user {
-    width: 55px;
-    height: 55px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     background-color: #FFEAC9; 
     color: #FDA310; 
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 30px;
-    margin-right: 20px;   
-  }
-  .circle-login-avatar-user-contenedor{
+    font-size: 20px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.circle-login-avatar-user-contenedor{
     display: flex;
-    justify-content: center;
     align-items: center;
-    margin-right: 4vw;
-  }
-  .modal-header-hamburguesa{
-    display: none;
-  }
-  .drop-down-login-header{
+    gap: 15px;
+}
+
+.drop-down-login-header{
     display: flex;
-    justify-content: center;
-    font-size: 20px;    
-  }
-  .nombre-usuario-logueado{
+    align-items: center;
+    font-size: 16px;
+    font-weight: 500;
+    gap: 5px;
+    transition: color 0.3s ease;
+}
+
+.nombre-usuario-logueado{
     cursor: pointer;
-  }
-  .modal-nombre-drop-donw-header-listado {
+}
+
+.nombre-usuario-logueado:hover .drop-down-login-header{
+    color: #FDA310;
+}
+
+.drop-down-icono{
+    font-size: 24px;
+    transition: transform 0.3s ease;
+}
+
+.nombre-usuario-logueado:hover .drop-down-icono{
+    transform: rotate(180deg);
+}
+
+/* Dropdown Menu */
+.modal-nombre-drop-donw-header-listado {
     position: absolute;
     background-color: white; 
-    transform: translate(-50%, -50%);
-    width: 8%;
-    height: 12%;
-    top: 14%;
-    left: 93%;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); 
-    display: flex;
-    justify-content: space-around;
-    padding-left: 10px;    
-    flex-direction: column;        
+    min-width: 200px;
+    width: auto;
+    top: 70px;
+    right: 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15); 
+    padding: 10px;
     z-index: 10001;
-    font-size: 20px;        
-  }
-  .text-icono-header-nuevo-modal-1{
-    cursor: pointer;
-    display: flex;    
-  }
-  .text-icono-header-nuevo-modal-2{
-    cursor: pointer;
-    display: flex;    
-  }
-  .text-icono-header-nuevo-modal-3{
-    cursor: pointer;
-    display: flex;    
-  }
-  .text-icono-header-nuevo-modal-1:hover{
-    color: #606060;   
-  }
-  .text-icono-header-nuevo-modal-2:hover{
-    color: #606060;   
-  }
-  .text-icono-header-nuevo-modal-3:hover{
-    color: #606060;  
-  }
-  .icono-header-perfil-nuevo-modal{
-    color: #FDA310;
-    margin-right: 5px;
-  }
+    animation: slideDown 0.2s ease;
+}
 
-
-  @media (max-width: 1440px) {
-    .modal-nombre-drop-donw-header-listado{
-        width: 11vw;
-        left: 92%;
-        top: 15%;
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
     }
-    
-  }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 
+.text-icono-header-nuevo-modal-1,
+.text-icono-header-nuevo-modal-2,
+.text-icono-header-nuevo-modal-3{
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 15px;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
 
+.text-icono-header-nuevo-modal-1:hover,
+.text-icono-header-nuevo-modal-2:hover,
+.text-icono-header-nuevo-modal-3:hover{
+    background-color: #FFF5E6;
+    color: #FDA310;
+}
 
+.icono-header-perfil-nuevo-modal{
+    color: #FDA310;
+    font-size: 20px;
+}
+
+/* Modal Hamburguesa */
+.modal-header-hamburguesa{
+    display: none;
+}
+
+.contenedor-modal-hamburguesa{
+    background-color: white;
+    width: 100%;
+    height: 100%;
+}
+
+.contenedor-modal-header-hamburguesa{
+    height: 80px;
+    background-color: #F5F6F7;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 25px;
+}
+
+.bienvenido-login-header{
+    font-weight: 600;
+    font-size: 18px;
+    color: #333;
+}
+
+.boton-cerrar-modal-hamburguesa{
+    cursor: pointer;
+    font-size: 32px;
+    color: #333;
+    transition: color 0.3s ease;
+}
+
+.boton-cerrar-modal-hamburguesa:hover{
+    color: #FDA310;
+}
+
+.contenedor-modal-listado-hamburguesa{
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.contenedor-modal-header-text-favoritos,
+.contenedor-modal-header-text-perfil{
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #666666;
+    font-size: 18px;
+    padding: 12px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.contenedor-modal-header-text-favoritos:hover,
+.contenedor-modal-header-text-perfil:hover{
+    background-color: #FFF5E6;
+    color: #FDA310;
+}
+
+.icono-header-favorito,
+.icono-header-perfil{
+    color: #FDA310;
+    font-size: 24px;
+}
+
+.linea-header-modal{
+    margin: 20px 25px;
+    border: none;
+    border-top: 1px solid #E0E0E0;
+}
+
+.contenedor-modal-cerrarSesion-hamburguesa{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.contenedor-modal-cerrarSesion-hamburguesa:hover{
+    background-color: #FFF5E6;
+}
+
+.text-cerarsesion-modal-header{
+    font-weight: 600;
+    color: #E54E13;
+    transition: color 0.3s ease;
+}
+
+.contenedor-modal-cerrarSesion-hamburguesa:hover .text-cerarsesion-modal-header{
+    color: #FDA310;
+}
+
+/* Tablet Styles */
 @media (max-width: 1024px) {
     .contenedor-header-principal{
-        height: 10vh;       
+        height: 70px;
+        padding: 0 25px;
     }
-    .contenedor-header-botones{        
-        padding-right: 20px;     
-    }
+    
     .logo-header{
-        width: 50%;
+        height: 45px;
     }
-    .boton-menu-header-hamburger{
-        display: none;
+    
+    .lema-header-text{
+        font-size: 12px;
+        max-width: 250px;
     }
-    .circle-login-avatar-user-contenedor{
-        width: 30vw;        
+    
+    .boton-header-inisiar,
+    .boton-header-cerrar{
+        min-width: 130px;
+        height: 40px;
+        font-size: 14px;
     }
-    .modal-header-hamburguesa{
-        display: none;
-      }
-    .circle-login-avatar-user-contenedor{
-        width: 50vw;
-    }
+    
     .modal-nombre-drop-donw-header-listado{
-        width: 20vw;
-        left: 85%;
+        right: 25px;
     }
 }   
 
+/* Mobile Styles */
 @media (max-width: 767px) {
-    .modal-header-hamburguesa{
-        display: block;
-      }
+    .contenedor-header-principal{
+        height: 70px;
+        padding: 0 20px;
+    }
+    
+    .logo-header{
+        height: 40px;
+    }
+    
     .lema-header-text {
         display: none;
     }
-    .contenedor-header-principal{
-        height: 10vh;
-        padding: 20px;
-    }
+    
     .contenedor-header-botones{
         display: none;
     }
-    .logo-header{
-        width: 50%;
-    }
-    .boton-menu-header-hamburger{
-        cursor: pointer;
-        display: block;
-        font-size: 40px;
-    }
-    /* Modal */
-
-    .modal-header-hamburguesa{
-        margin: 0px;
-        background-color: rgb(255, 255, 255);
-        width: 80vw;
-        height: 100vh;
-        font-size: 25px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
-        border-radius: 8px; 
-        
-    }
-    .contenedor-modal-header-hamburguesa{
-        height: 10vh;
-        background-color: #F5F6F7;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-size: 25px;
-        padding-left: 30px;
-    }
-    .boton-cerrar-modal-hamburguesa{
-        cursor: pointer;
-        font-size: 40px;
-    }
-    .contenedor-modal-listado-hamburguesa{
-        height: 15vh;        
-        display: flex;
-        flex-direction: column;
-        justify-content: space-around;
-        padding-left: 30px;        
-    }
-    .contenedor-modal-header-text-favoritos{
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        color: #666666;
-    }
-    .icono-header-favorito{
-        color: #FDA310;
-        margin-right: 5px;
-    }
-    .contenedor-modal-header-text-favoritos:hover{
-        color: #FDA310;
-    }
-    .contenedor-modal-header-text-perfil{
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        color: #666666;
-    }
-    .contenedor-modal-header-text-perfil:hover{
-        color: #FDA310;
-    }
-    .icono-header-perfil{
-        color: #FDA310;
-        margin-right: 5px;
-    }
-    .linea-header-modal{
-        margin-top: 20px;
-        width: 65vw;
-        margin-left: 30px;
-        color: #D0D2D4;
-    }
-    .contenedor-modal-cerrarSesion-hamburguesa{
-        display: flex;
-        padding-left: 30px;
-        padding-top: 30px;        
-    }
-    .text-cerarsesion-modal-header{
-        cursor: pointer;
-        margin-left: 5px;
-        font-weight: bold;
-        color: #000000;
-    }
-    .text-cerarsesion-modal-header:hover{
-        color: #FDA310;
-    }
+    
     .circle-login-avatar-user-contenedor{
         display: none;
     }
+    
+    .boton-menu-header-hamburger{
+        display: block;
+    }
+    
+    /* Modal Hamburguesa Mobile */
+    .modal-header-hamburguesa{
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 85vw;
+        max-width: 350px;
+        height: 100vh;
+        margin: 0;
+        background-color: white;
+        box-shadow: 4px 0 24px rgba(0, 0, 0, 0.2);
+        border-radius: 0;
+        animation: slideInLeft 0.3s ease;
+    }
+    
+    @keyframes slideInLeft {
+        from {
+            transform: translateX(-100%);
+        }
+        to {
+            transform: translateX(0);
+        }
+    }
+    
+    .contenedor-modal-header-hamburguesa{
+        height: 70px;
+        padding: 0 20px;
+    }
+    
     .bienvenido-login-header{
-        font-weight: bold;
-      }
+        font-size: 16px;
+    }
+    
+    .contenedor-modal-listado-hamburguesa{
+        padding: 20px;
+    }
+    
+    .linea-header-modal{
+        margin: 15px 20px;
+    }
+    
+    .contenedor-modal-cerrarSesion-hamburguesa{
+        padding: 12px 20px;
+    }
+}
+
+/* Extra small mobile */
+@media (max-width: 480px) {
+    .contenedor-header-principal{
+        padding: 0 15px;
+    }
+    
+    .logo-header{
+        height: 35px;
+    }
+    
+    .modal-header-hamburguesa{
+        width: 80vw;
+    }
 }

@@ -3,8 +3,97 @@
     padding-left: 20px;
     padding-right: 50px;
     margin-top: 13vh;
-             
 }
+
+/* Loading and Error States */
+.loading-state,
+.error-state {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #FDA310;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading-state p,
+.error-state p {
+    font-size: 18px;
+    color: #686766;
+}
+
+.error-state p {
+    color: #E54E13;
+    margin-bottom: 20px;
+}
+
+.btn-back-error {
+    background-color: #FDA310;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.btn-back-error:hover {
+    background-color: #feb642;
+    transform: translateY(-2px);
+}
+
+/* Image Placeholders */
+.img-placeholder-detalle {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    font-size: 48px;
+}
+
+.skeleton-image-detalle {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s ease-in-out infinite;
+    border-radius: 4px;
+}
+
+.container-detalle-producto-imagen1 .img-placeholder-detalle {
+    min-height: 300px;
+}
+
+.container-detalle-producto-imagen2 .img-placeholder-detalle,
+.container-detalle-producto-imagen3 .img-placeholder-detalle,
+.container-detalle-producto-imagen4 .img-placeholder-detalle,
+.container-detalle-producto-imagen5 .img-placeholder-detalle {
+    min-height: 120px;
+}
+
+.img-1, .img-2, .img-3, .img-4, .img-5 {
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* Original styles */
 .container-imagenes-deatlle-precio{
     display: flex;
 }

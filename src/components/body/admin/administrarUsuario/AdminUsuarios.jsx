@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import DataTable from 'react-data-table-component';
 import Modal from 'react-modal'; 
 import { useApi } from '../../../../context/ApiContext';
+import API_URL from '../../../../config/api';
 import './AdminUsuarios.css';
 import { Link } from 'react-router-dom';
 import imgModal from '../../../../assets/admin/admin_usuarios/icon-creation-product.png'

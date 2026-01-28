@@ -136,7 +136,7 @@ export const ApiProvider = ({ children }) => {
       formData.append('description', categoryData.description);
       formData.append('img', categoryData.img);
 
-      const response = await fetch('http://localhost:8081/api/admin/category', {
+      const response = await fetch(`${API_URL}/api/admin/category`, {
         method: 'POST',
         body: formData,
       });

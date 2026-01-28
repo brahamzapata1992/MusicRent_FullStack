@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import { useParams } from 'react-router-dom';
 import { useApi } from '../../../../../../context/ApiContext';
+import API_URL from '../../../../../../config/api';
 import Calendario from '../../BuscadorProductos/calendario/Calendario';
 import { useNavigate } from 'react-router-dom';
 import './Reservas.css';

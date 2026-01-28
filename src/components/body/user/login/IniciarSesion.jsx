@@ -31,7 +31,7 @@ const IniciarSesion = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:8081/users/authenticate", {
+      const response = await fetch(`${API_URL}/users/authenticate`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -81,6 +81,46 @@ const PublicDetalleProducto = () => {
     getProductDetails();
   }, [id, fetchProductById]);
 
+  // Función auxiliar para renderizar imágenes con placeholders
+  const renderImage = (imageData, index, className, containerClass) => {
+    const imageKey = `img-${index}`;
+    
+    if (!imageData) {
+      return (
+        <div className={containerClass}>
+          <div className="img-placeholder-detalle">
+            <span>🎵</span>
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div className={containerClass}>
+        {!imagesLoaded[imageKey] && !imagesError[imageKey] && (
+          <div className="skeleton skeleton-image-detalle"></div>
+        )}
+        {imagesError[imageKey] ? (
+          <div className="img-placeholder-detalle">
+            <span>🎵</span>
+          </div>
+        ) : (
+          <img
+            src={`data:image/jpeg;base64,${imageData}`}
+            alt={`${product?.name}-image-${index}`}
+            className={className}
+            onLoad={() => setImagesLoaded(prev => ({ ...prev, [imageKey]: true }))}
+            onError={() => {
+              setImagesError(prev => ({ ...prev, [imageKey]: true }));
+              setImagesLoaded(prev => ({ ...prev, [imageKey]: true }));
+            }}
+            style={{ display: imagesLoaded[imageKey] && !imagesError[imageKey] ? 'block' : 'none' }}
+          />
+        )}
+      </div>
+    );
+  };
+
   if (loading) {
     return (
       <div className='container-principal-detalle-producto'>

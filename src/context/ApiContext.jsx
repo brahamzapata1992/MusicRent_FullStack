@@ -271,7 +271,7 @@ export const ApiProvider = ({ children }) => {
 
   const fetchProductsByCategory = async (categoryId) => {
     try {
-      const response = await fetch(`http://localhost:8081/api/admin/products/byCategories?categoryIds=${categoryId}`);
+      const response = await fetch(`${API_URL}/api/admin/products/byCategories?categoryIds=${categoryId}`);
       if (response.ok) {
         const products = await response.json();
         return products;

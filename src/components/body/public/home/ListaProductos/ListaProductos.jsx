@@ -68,9 +68,21 @@ const ListaProductos = ({ selectedCategories }) => {
     return (
         <div className='container-listado-cards'>
             {loading ? (
-                <p>Loading...</p>
+                <div className="grid-container-listaProductos">
+                    {[1, 2, 3, 4, 5, 6].map((_, index) => (
+                        <CardSkeleton key={index} />
+                    ))}
+                </div>
             ) : error ? (
-                <p>{error}</p>
+                <div className="error-container">
+                    <p className="error-message">⚠️ {error}</p>
+                    <p className="error-hint">Por favor, verifica tu conexión o intenta más tarde</p>
+                </div>
+            ) : filteredProductos.length === 0 ? (
+                <div className="empty-state">
+                    <p className="empty-message">🎵 No se encontraron productos</p>
+                    <p className="empty-hint">Intenta con otra búsqueda o categoría</p>
+                </div>
             ) : (
                 <div>
                     <div className="grid-container-listaProductos">
@@ -79,14 +91,27 @@ const ListaProductos = ({ selectedCategories }) => {
                                 key={index}
                                 id={producto.id} 
                                 name={producto.name}
-                                image={`data:image/jpeg;base64,${producto.images[0].imageData}`} 
+                                image={producto.images && producto.images[0] ? `data:image/jpeg;base64,${producto.images[0].imageData}` : ''} 
                                 price={producto.price}
                             />
                         ))}
                     </div>
                     <div className="pagination">
-                        <button onClick={prevPage} disabled={currentPage === 1}>Prev</button>
-                        <button onClick={nextPage} disabled={currentPage === Math.ceil(filteredProductos.length / productosPerPage)}>Next</button>
+                        <button 
+                            onClick={prevPage} 
+                            disabled={currentPage === 1}
+                            className={currentPage === 1 ? 'disabled' : ''}
+                        >
+                            Anterior
+                        </button>
+                        <span className="page-info">Página {currentPage} de {Math.ceil(filteredProductos.length / productosPerPage)}</span>
+                        <button 
+                            onClick={nextPage} 
+                            disabled={currentPage === Math.ceil(filteredProductos.length / productosPerPage)}
+                            className={currentPage === Math.ceil(filteredProductos.length / productosPerPage) ? 'disabled' : ''}
+                        >
+                            Siguiente
+                        </button>
                     </div>
                 </div>
             )}

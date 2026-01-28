@@ -183,8 +183,9 @@
 @media (max-width: 1024px) {
     .container-principal-buscador-productos{
         margin-top: 70px;
-        min-height: 250px;
+        min-height: 280px;
         padding: 30px;
+        padding-right: 320px;
     }
     
     .container-lema-buscador-productos{
@@ -193,7 +194,8 @@
     }
     
     .container-imagen-buscador-productos-chica{
-        width: 300px;
+        width: 280px;
+        right: 15px;
     }
     
     .resultados-buscador-productos {

@@ -1,15 +1,18 @@
 .container-principal-buscador-productos{
+    position: relative;
     margin-top: 80px;
     background-image: url('../../../../../assets//home/fondo_home.svg');
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
     width: 100%;
-    min-height: 280px;
+    min-height: 320px;
     padding: 40px;
+    padding-right: 420px;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    overflow: hidden;
 }
 
 .container-lema-buscador-productos{

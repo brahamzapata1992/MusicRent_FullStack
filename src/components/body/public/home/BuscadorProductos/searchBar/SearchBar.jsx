@@ -1,4 +1,5 @@
 import { useState } from "react";
+import API_URL from "../../../../../../config/api";
 import "./SearchBar.css";
 
 export const SearchBar = ({ setResults }) => {

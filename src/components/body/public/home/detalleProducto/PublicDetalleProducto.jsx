@@ -82,11 +82,25 @@ const PublicDetalleProducto = () => {
   }, [id, fetchProductById]);
 
   if (loading) {
-    return <p>Cargando...</p>;
+    return (
+      <div className='container-principal-detalle-producto'>
+        <div className="loading-state">
+          <div className="loading-spinner"></div>
+          <p>Cargando detalles del producto...</p>
+        </div>
+      </div>
+    );
   }
 
   if (error) {
-    return <p>Error: {error}</p>;
+    return (
+      <div className='container-principal-detalle-producto'>
+        <div className="error-state">
+          <p>⚠️ Error: {error}</p>
+          <Link to='/home' className='btn-back-error'>Volver al inicio</Link>
+        </div>
+      </div>
+    );
   }
 
   return (

@@ -1,285 +1,155 @@
-.login-page-inicio-principal{
-    width: 100vw;
-    height: 70vh;
+.login-page-inicio-principal {
+    width: 100%;
+    min-height: calc(100vh - 200px);
     display: flex;
-    margin-top: 13vh;                           
+    margin-top: 80px;
 }
-.img-login-inicio{
-    width: 39.3vw;
-    height: 100%;
+
+.img-login-inicio {
+    width: 40%;
+    height: auto;
+    object-fit: cover;
 }
-.form-login-inicio{        
-    width: 100vw;
-    height: 70vh;
+
+.form-login-inicio {
+    flex: 1;
     display: flex;
-    flex-direction: column;        
+    flex-direction: column;
+    padding: 40px;
+    max-width: 600px;
+    margin: 0 auto;
 }
-.h2_login-inicio{
+
+.h2_login-inicio {
     font-size: 28px;
     color: #FDA310;
     text-align: center;
-    padding-top: 50px;        
+    margin-bottom: 20px;
 }
-.form-group-login-inicio{
+
+.form-group-login-inicio {
     display: flex;
     flex-direction: column;
-    padding-top: 40px;
-    padding-left: 20px;
-    padding-right: 20px;
-    margin-top: 25px;
-    font-size: 20px;
-    color: #00000080;
+    gap: 8px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    color: #666;
 }
-.input-login-inicio{
+
+.input-login-inicio {
     width: 100%;
     height: 50px;
-    border-radius: 15px;
-    border-color: #00000063;
-    padding: 20px;
-    font-size: 22px;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    padding: 0 20px;
+    font-size: 16px;
+    transition: all 0.3s ease;
 }
-.contenedor-boton-login-inicio{
+
+.input-login-inicio:focus {
+    outline: none;
+    border-color: #FDA310;
+    box-shadow: 0 0 0 3px rgba(253, 163, 16, 0.1);
+}
+
+.contenedor-boton-login-inicio {
     display: flex;
     justify-content: center;
-    margin-top: 8%;
+    margin-top: 30px;
 }
-.boton-login-inicio{
+
+.boton-login-inicio {
     cursor: pointer;
-    width: 90%;
-    border-radius: 15px;
+    width: 100%;
+    border-radius: 12px;
     height: 50px;
     background-color: #FDA310;
     border: none;
     color: white;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s ease;
 }
-.boton-login-inicio:hover{
-    background-color: #f3ae3e;
+
+.boton-login-inicio:hover {
+    background-color: #feb642;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(253, 163, 16, 0.3);
 }
-.link-login-inicio{
+
+.link-login-inicio {
     text-decoration: none;
-    color: rgba(0, 0, 0, 0.368);
+    color: #666;
 }
-.link-texto-login-inicio{
+
+.link-texto-login-inicio {
     text-align: center;
-    margin-top: 60px;
-    font-size: 20px;
+    margin-top: 30px;
+    font-size: 15px;
+    color: #666;
 }
-.spam-login-inicio{
-    color: black;
+
+.spam-login-inicio {
+    color: #FDA310;
+    font-weight: 600;
 }
-.error-message-login-inicio{
+
+.spam-login-inicio:hover {
+    text-decoration: underline;
+}
+
+.error-message-login-inicio {
     color: #E54E13;
-    font-weight: bold;
+    font-weight: 600;
+    text-align: center;
+    padding: 10px;
+    background-color: #fff5f5;
+    border-radius: 8px;
+    margin-bottom: 15px;
 }
 
-
-@media (max-width: 1440px) {
-    .login-page-inicio-principal{
-        width: 100vw;
-        height: 70vh;
-        display: flex;                        
-    }
-    .img-login-inicio{
-        width: 39.3vw;
-    }
-    .form-login-inicio{        
-        width: 100vw;
-        height: 70vh;
-        display: flex;
-        flex-direction: column;        
-    }
-    .h2_login-inicio{
-        font-size: 28px;
-        color: #FDA310;
-        text-align: center;
-        padding-top: 50px;        
-    }
-    .form-group-login-inicio{
-        display: flex;
-        flex-direction: column;
-        padding-top: 40px;
-        padding-left: 20px;
-        padding-right: 20px;
-        margin-top: 25px;
-        font-size: 20px;
-        color: #00000080;
-    }
-    .input-login-inicio{
-        width: 100%;
-        height: 50px;
-        border-radius: 15px;
-        border-color: #00000063;
-        padding: 20px;
-        font-size: 22px;
-    }
-    .contenedor-boton-login-inicio{
-        display: flex;
-        justify-content: center;
-        margin-top: 10%;
-    }
-    .boton-login-inicio{
-        cursor: pointer;
-        width: 90%;
-        border-radius: 15px;
-        height: 50px;
-        background-color: #FDA310;
-        border: none;
-        color: white;
-    }
-    .boton-login-inicio:hover{
-        background-color: #f3ae3e;
-    }
-    .link-login-inicio{
-        text-decoration: none;
-        color: rgba(0, 0, 0, 0.368);
-    }
-    .link-texto-login-inicio{
-        text-align: center;
-        margin-top: 30px;
-    }
-    .error-message-login-inicio{
-        color: #E54E13;
-        font-weight: bold;
-    }
-}
-
+/* Tablet */
 @media (max-width: 1024px) {
-    .img-login-inicio{
+    .login-page-inicio-principal {
+        margin-top: 70px;
+    }
+    
+    .img-login-inicio {
         display: none;
     }
-    .login-page-inicio-principal{
-        width: 100vw;
-        height: 70vh;
-        display: flex;
-        flex-direction: column;        
-    }
-    .form-login-inicio{        
-        width: 100vw;
-        height: 70vh;
-        display: flex;
-        flex-direction: column;        
-    }
-    .h2_login-inicio{
-        font-size: 28px;
-        color: #FDA310;
-        text-align: center;
-        padding-top: 50px;        
-    }
-    .form-group-login-inicio{
-        display: flex;
-        flex-direction: column;
-        padding-top: 40px;
-        padding-left: 20px;
-        padding-right: 20px;
-        margin-top: 25px;
-        font-size: 20px;
-        color: #00000080;
-    }
-    .input-login-inicio{
-        width: 100%;
-        height: 50px;
-        border-radius: 15px;
-        border-color: #00000063;
-        padding: 20px;
-        font-size: 22px;
-    }
-    .contenedor-boton-login-inicio{
-        display: flex;
-        justify-content: center;
-        margin-top: 15%;
-    }
-    .boton-login-inicio{
-        cursor: pointer;
-        width: 90%;
-        border-radius: 15px;
-        height: 50px;
-        background-color: #FDA310;
-        border: none;
-        color: white;
-    }
-    .boton-login-inicio:hover{
-        background-color: #f3ae3e;
-    }
-    .link-login-inicio{
-        text-decoration: none;
-        color: rgba(0, 0, 0, 0.368);
-    }
-    .link-texto-login-inicio{
-        text-align: center;
-        margin-top: 80px;
-    }
-    .error-message-login-inicio{
-        color: #E54E13;
-        font-weight: bold;
+    
+    .form-login-inicio {
+        padding: 30px 20px;
     }
 }
+
+/* Mobile */
 @media (max-width: 767px) {
-    .img-login-inicio{
-        display: none;
+    .login-page-inicio-principal {
+        margin-top: 70px;
+        min-height: auto;
+        padding-bottom: 40px;
     }
-    .login-page-inicio-principal{
-        width: 100vw;
-        height: 70vh;
-        display: flex;
-        flex-direction: column;        
+    
+    .form-login-inicio {
+        padding: 20px 15px;
     }
-    .form-login-inicio{        
-        width: 100vw;
-        height: 70vh;
-        display: flex;
-        flex-direction: column;        
+    
+    .h2_login-inicio {
+        font-size: 24px;
     }
-    .h2_login-inicio{
-        font-size: 28px;
-        color: #FDA310;
-        text-align: center;
-        padding-top: 50px;        
+    
+    .input-login-inicio {
+        height: 48px;
+        font-size: 15px;
     }
-    .form-group-login-inicio{
-        display: flex;
-        flex-direction: column;
-        padding-top: 40px;
-        padding-left: 20px;
-        padding-right: 20px;
+    
+    .boton-login-inicio {
+        height: 48px;
+    }
+    
+    .link-texto-login-inicio {
+        font-size: 14px;
         margin-top: 25px;
-        font-size: 20px;
-        color: #00000080;
-    }
-    .input-login-inicio{
-        width: 100%;
-        height: 50px;
-        border-radius: 15px;
-        border-color: #00000063;
-        padding: 20px;
-        font-size: 22px;
-    }
-    .contenedor-boton-login-inicio{
-        display: flex;
-        justify-content: center;
-        margin-top: 20%;
-    }
-    .boton-login-inicio{
-        cursor: pointer;
-        width: 90%;
-        border-radius: 15px;
-        height: 50px;
-        background-color: #FDA310;
-        border: none;
-        color: white;
-    }
-    .boton-login-inicio:hover{
-        background-color: #f3ae3e;
-    }
-    .link-login-inicio{
-        text-decoration: none;
-        color: rgba(0, 0, 0, 0.368);
-    }
-    .link-texto-login-inicio{
-        text-align: center;
-        margin-top: 30px;
-    }
-    .error-message-login-inicio{
-        color: #E54E13;
-        font-weight: bold;
     }
 }

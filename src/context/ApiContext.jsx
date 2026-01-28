@@ -76,7 +76,7 @@ export const ApiProvider = ({ children }) => {
 
   const editProduct = async (formData, id) => {
     try {
-      const response = await fetch(`http://localhost:8081/api/admin/products/${id}`, {
+      const response = await fetch(`${API_URL}/api/admin/products/${id}`, {
         method: 'PUT',
         body: formData,
       });

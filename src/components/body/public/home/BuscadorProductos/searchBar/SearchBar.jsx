@@ -6,7 +6,7 @@ export const SearchBar = ({ setResults }) => {
   const [searchTerm, setSearchTerm] = useState('');
 
   const fetchData = (value) => {
-    fetch("http://localhost:8081/api/admin/products")
+    fetch(`${API_URL}/api/admin/products`)
       .then((response) => response.json())
       .then((json) => {
         const results = json.filter((product) => {

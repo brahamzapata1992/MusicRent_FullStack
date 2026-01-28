@@ -1,6 +1,7 @@
 // Favoritos.js
 import { useState, useEffect } from 'react';
 import { useApi } from '../../../../context/ApiContext';
+import API_URL from '../../../../config/api';
 import Card from '../../public/home/ListaProductos/Card/Card'; 
 import './Favoritos.css';
 

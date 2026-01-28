@@ -17,7 +17,7 @@ const ConfirmacionReserva = () => {
     useEffect(() => {
         const fetchReservaData = async () => {
             try {
-                const response = await fetch(`http://localhost:8081/api/customer/reservation/history/${loggedInUser.userId}`);
+                const response = await fetch(`${API_URL}/api/customer/reservation/history/${loggedInUser.userId}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch reservation data');
                 }
@@ -27,7 +27,7 @@ const ConfirmacionReserva = () => {
                 // Fetch product details using productId
                 if (data && data.length > 0) {
                     const productId = data[0].productId; // Assuming productId is from the first reservation entry
-                    const productResponse = await fetch(`http://localhost:8081/api/admin/products/${productId}`);
+                    const productResponse = await fetch(`${API_URL}/api/admin/products/${productId}`);
                     if (!productResponse.ok) {
                         throw new Error('Failed to fetch product data');
                     }

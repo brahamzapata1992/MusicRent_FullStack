@@ -56,7 +56,7 @@ const Favoritos = () => {
 
   const handleFavoriteClick = async (productId, addToFavorites) => {
     try {
-      const url = `http://localhost:8081/api/favorites/${loggedInUser.userId}/${productId}`;
+      const url = `${API_URL}/api/favorites/${loggedInUser.userId}/${productId}`;
       const method = addToFavorites ? 'POST' : 'DELETE';
 
       const response = await fetch(url, {

@@ -237,7 +237,7 @@ export const ApiProvider = ({ children }) => {
 
   const createProduct = async (productData) => {
     try {
-      const response = await fetch('http://localhost:8081/api/admin/products', {
+      const response = await fetch(`${API_URL}/api/admin/products`, {
         method: 'POST',
         body: productData,
       });

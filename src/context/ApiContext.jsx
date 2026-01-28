@@ -307,7 +307,7 @@ export const ApiProvider = ({ children }) => {
 
   const createReservation = async (reservationData) => {
     try {
-      const response = await fetch('http://localhost:8081/api/customer/reservation/create', {
+      const response = await fetch(`${API_URL}/api/customer/reservation/create`, {
         method: 'POST',
         body: reservationData,
       });

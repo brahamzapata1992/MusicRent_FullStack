@@ -73,7 +73,7 @@ const AdminUsuarios = () => {
         [row.id]: newRole,
       }));
 
-      const response = await fetch(`http://localhost:8081/users/change-role/${row.email}/${newRole}`, {
+      const response = await fetch(`${API_URL}/users/change-role/${row.email}/${newRole}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

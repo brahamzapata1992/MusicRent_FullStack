@@ -25,7 +25,7 @@ const EditarProducto = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch('http://localhost:8081/api/admin/list');
+      const response = await fetch(`${API_URL}/api/admin/list`);
       if (response.ok) {
         const data = await response.json();
         setCategories(data);

@@ -12,6 +12,31 @@
     margin-bottom: 30px;
 }
 
+/* Error and Empty States */
+.error-container,
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    min-height: 40vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.error-message,
+.empty-message {
+    font-size: 24px;
+    font-weight: bold;
+    color: #E54E13;
+    margin-bottom: 10px;
+}
+
+.error-hint,
+.empty-hint {
+    font-size: 16px;
+    color: #686766;
+}
 
 /* Estilos para la paginación */
 .pagination {
@@ -19,6 +44,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 15px;
 }
 
 .pagination button {
@@ -28,17 +54,29 @@
     padding: 10px 20px;
     margin: 0 5px;
     cursor: pointer;
-    border-radius: 5px;
+    border-radius: 8px;
     outline: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
 }
 
-.pagination button:hover {
+.pagination button:hover:not(:disabled) {
     background-color: #feb642;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(253, 163, 16, 0.3);
 }
 
-.pagination button:disabled {
-    background-color: #7c8185;
+.pagination button:disabled,
+.pagination button.disabled {
+    background-color: #ccc;
     cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.page-info {
+    font-size: 16px;
+    color: #333;
+    font-weight: 500;
 }
 
 @media (max-width: 1024px) {
@@ -62,5 +100,24 @@
         grid-template-columns: repeat(2, 1fr); 
         gap: 25px;
         margin-bottom: 30px;
+    }
+    
+    .error-message,
+    .empty-message {
+        font-size: 20px;
+    }
+    
+    .error-hint,
+    .empty-hint {
+        font-size: 14px;
+    }
+    
+    .pagination button {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+    
+    .page-info {
+        font-size: 14px;
     }
 }

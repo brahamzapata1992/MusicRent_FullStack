@@ -288,7 +288,7 @@ export const ApiProvider = ({ children }) => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await fetch('http://localhost:8081/users/list');
+        const response = await fetch(`${API_URL}/users/list`);
         if (response.ok) {
           const usersData = await response.json();
           setUsers(usersData);  // Almacena los usuarios en el estado

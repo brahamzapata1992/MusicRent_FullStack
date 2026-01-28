@@ -38,7 +38,7 @@ export const ApiProvider = ({ children }) => {
 
   const deleteCategory = async (id) => {
     try {
-      const response = await fetch(`http://localhost:8081/api/admin/category/delete/${id}`, {
+      const response = await fetch(`${API_URL}/api/admin/category/delete/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

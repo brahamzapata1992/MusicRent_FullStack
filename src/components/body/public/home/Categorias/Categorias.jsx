@@ -9,7 +9,7 @@ const Categorias = () => {
 
   useEffect(() => {
     // Llamada a la API para obtener las categorías
-    fetch('http://localhost:8081/api/admin/list')
+    fetch(`${API_URL}/api/admin/list`)
       .then(response => response.json())
       .then(data => {
         setCategorias(data);

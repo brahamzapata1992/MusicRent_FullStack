@@ -325,7 +325,7 @@ export const ApiProvider = ({ children }) => {
     
   const fetchReservation = async (id) => {
     try {
-      const response = await fetch('http://localhost:8081/api/customer/reservation/update/${id}');
+      const response = await fetch(`${API_URL}/api/customer/reservation/update/${id}`);
       if (response.ok) {
         const reservation = await response.json();
         return reservation;

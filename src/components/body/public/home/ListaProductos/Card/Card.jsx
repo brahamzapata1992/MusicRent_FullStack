@@ -24,7 +24,7 @@ const Card = ({ id, name, image, price, isFavorite, onFavoriteClick }) => {
                 await onFavoriteClick(id, false);
             } else {
                 // Si el producto no está marcado como favorito, agregarlo a la lista de favoritos
-                const response = await fetch(`http://localhost:8081/api/favorites/${loggedInUser.userId}/${id}`, {
+                const response = await fetch(`${API_URL}/api/favorites/${loggedInUser.userId}/${id}`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

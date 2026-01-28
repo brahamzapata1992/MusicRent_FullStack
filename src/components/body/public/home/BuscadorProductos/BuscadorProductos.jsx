@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import API_URL from '../../../../../config/api';
 import CalendarioBarraBusqueda from '../BuscadorProductos/calendarioBarraBusqueda/CalendarioBarraBusqueda';
 import { IoIosArrowDropdown } from 'react-icons/io';
 import imagenChica from '../../../../../assets/home/imagen_home_mujer.svg';

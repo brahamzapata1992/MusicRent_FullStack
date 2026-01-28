@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './ListaProductos.css';
 import Card from './Card/Card';
+import API_URL from '../../../../config/api';
 
 const ListaProductos = ({ selectedCategories }) => {
     const [productos, setProductos] = useState([]);

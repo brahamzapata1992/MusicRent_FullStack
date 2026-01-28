@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useApi } from '../../../../../context/ApiContext';
+import API_URL from '../../../../../config/api';
 import feliz from "../../../../../assets/admin/admin_product/icon-creation-product.png";
 import './EditarProducto.css';
 

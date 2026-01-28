@@ -13,7 +13,7 @@ const Favoritos = () => {
   useEffect(() => {
     const fetchProductos = async () => {
       try {
-        const response = await fetch('http://localhost:8081/api/admin/products');
+        const response = await fetch(`${API_URL}/api/admin/products`);
         if (response.ok) {
           const data = await response.json();
           setProductos(data);         
@@ -29,7 +29,7 @@ const Favoritos = () => {
 
     const fetchFavoritos = async () => {
       try {
-        const response = await fetch(`http://localhost:8081/api/favorites/${loggedInUser.userId}`);
+        const response = await fetch(`${API_URL}/api/favorites/${loggedInUser.userId}`);
         if (response.ok) {
           const data = await response.json();
           setFavoritos(data);          

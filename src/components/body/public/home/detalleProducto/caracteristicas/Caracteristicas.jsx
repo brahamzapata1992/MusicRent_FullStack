@@ -9,7 +9,7 @@ const Caracteristicas = () => {
   useEffect(() => {
     const fetchCaracteristicas = async () => {
       try {
-        const response = await fetch('http://localhost:8081/api/admin/features/list');
+        const response = await fetch(`${API_URL}/api/admin/features/list`);
         if (response.ok) {
           const data = await response.json();
           setCaracteristicas(data);

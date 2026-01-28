@@ -18,7 +18,7 @@ export const ApiProvider = ({ children }) => {
   useEffect(() => {
     const fetchProductos = async () => {
       try {
-        const response = await fetch('http://localhost:8081/api/admin/products');
+        const response = await fetch(`${API_URL}/api/admin/products`);
         if (response.ok) {
           const data = await response.json();
           setProductos(data);

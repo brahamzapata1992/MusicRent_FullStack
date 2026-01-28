@@ -255,7 +255,7 @@ export const ApiProvider = ({ children }) => {
 
   const fetchProductById = async (id) => {
     try {
-      const response = await fetch(`http://localhost:8081/api/admin/products/${id}`);
+      const response = await fetch(`${API_URL}/api/admin/products/${id}`);
       if (response.ok) {
         const product = await response.json();
         return product;

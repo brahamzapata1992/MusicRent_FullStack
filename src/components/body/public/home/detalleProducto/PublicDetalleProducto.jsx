@@ -25,6 +25,8 @@ const PublicDetalleProducto = () => {
   const [isPoliticasOpen, setIsPoliticasOpen] = useState(false);
   const [isShareOpen, setIsShareOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [imagesLoaded, setImagesLoaded] = useState({});
+  const [imagesError, setImagesError] = useState({});
 
   const handleClick = () => {
     if (loggedInUser) {

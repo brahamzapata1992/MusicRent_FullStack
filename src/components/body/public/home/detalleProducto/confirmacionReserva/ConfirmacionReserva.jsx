@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';    
+import { Link } from 'react-router-dom';
+import API_URL from '../../../../../../config/api';
 import imgConfirmacion from '../../../../../../assets/reserva/confirmacion-reserva.svg';
 import WhatsAppButton from '../../whatsapp/WhatsAppButton'
 import { useApi } from '../../../../../../context/ApiContext';

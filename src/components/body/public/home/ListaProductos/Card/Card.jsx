@@ -56,7 +56,26 @@ const Card = ({ id, name, image, price, isFavorite, onFavoriteClick }) => {
             </div>
             <Link to={`/detalle-producto/${id}`} className='link-detail'>
                 <div className='container-img-single-card'>
-                    <img className='img-single-card' src={image} alt={name} />
+                    {!imageLoaded && !imageError && (
+                        <div className='skeleton skeleton-image'></div>
+                    )}
+                    {imageError ? (
+                        <div className='img-placeholder'>
+                            <span>🎵<br/>Imagen no disponible</span>
+                        </div>
+                    ) : (
+                        <img 
+                            className={`img-single-card ${imageLoaded ? 'loaded' : 'loading'}`}
+                            src={image} 
+                            alt={name}
+                            onLoad={() => setImageLoaded(true)}
+                            onError={() => {
+                                setImageError(true);
+                                setImageLoaded(true);
+                            }}
+                            style={{ display: imageLoaded ? 'block' : 'none' }}
+                        />
+                    )}
                 </div>
             </Link>
             <div className="container-name-single-card">

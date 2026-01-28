@@ -103,7 +103,7 @@ export const ApiProvider = ({ children }) => {
 
   const createAccount = async (userData) => {
     try {
-      const response = await fetch('http://localhost:8081/users/sign-up', {
+      const response = await fetch(`${API_URL}/users/sign-up`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -152,17 +152,19 @@
 
 .container-imagen-buscador-productos-chica {
     position: absolute;
-    right: 5%;
+    right: 20px;
     bottom: 0;
-    width: 400px;
+    width: 380px;
     height: auto;
-    z-index: 0;
+    z-index: 1;
     pointer-events: none;
 }
 
 .imagen-buscador-productos-chica{
     width: 100%;
     height: auto;
+    max-height: 100%;
+    object-fit: contain;
 }
 
 .container-boton-buscador-productos{

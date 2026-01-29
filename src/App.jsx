@@ -7,6 +7,7 @@ import ProductDetail from './pages/ProductDetail';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Profile from './pages/Profile';
+import NotFound from './pages/NotFound';
 import AdminLayout from './pages/admin/AdminLayout';
 import AdminUsers from './pages/admin/AdminUsers';
 import AdminCategories from './pages/admin/AdminCategories';
@@ -39,6 +40,8 @@ const App = () => {
                   <Route path="/inicioSesion" element={<Navigate to="/login" replace />} />
                   <Route path="/registro" element={<Register />} />
                   <Route path="/perfil" element={<Profile />} />
+                  <Route path="/error" element={<NotFound />} />
+                  <Route path="*" element={<NotFound />} />
                 </Routes>
               </div>
               <Footer />

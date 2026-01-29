@@ -11,105 +11,75 @@ Aplicación web completa de e-commerce para alquiler de instrumentos musicales c
 - **Date Picker:** React DatePicker
 - **Estado:** React Context API
 
+## Pantallas Implementadas
+
+### 1. Página de Error (404 / Error 400)
+- Imagen del personaje con lupa buscando
+- Mensaje "¡Ups! Algo salió mal"
+- Botones "Volver al inicio" e "Intentar de nuevo"
+- Se muestra cuando hay errores de API (400, 404, 500)
+
+### 2. Reserva Exitosa
+- Imagen de la chica celebrando (vestido amarillo)
+- Mensaje "¡Su reserva se ha realizado con éxito!"
+- Detalles: fechas, nombre del producto, precio total, número de reserva
+- Botones "Volver al inicio" y "Ver mis reservas"
+
+### 3. Perfil de Usuario
+- Avatar con inicial del usuario
+- Tabs: Mis Reservas, Favoritos, Mis Datos
+- **Historial de Reservas:**
+  - Lista de reservas con estados (En curso, Completada, Pendiente, Cancelada)
+  - Click en reserva abre modal con detalles completos
+- **Detalle de Reserva (Modal):**
+  - Imagen y nombre del producto
+  - ID y fecha de creación
+  - Fechas de inicio, fin y total de días
+  - Resumen de pago (precio por día, total)
+  - Datos de entrega (nombre, email, teléfono, dirección)
+  - Botones según estado: "Cancelar reserva" o "Reservar de nuevo"
+
 ## Arquitectura
 ```
 /app/
-├── .env                          # Variable VITE_API_URL
 ├── src/
-│   ├── config/api.js            # Configuración centralizada del API
-│   ├── context/AppContext.jsx   # Estado global + mock data para desarrollo
-│   ├── components/
-│   │   ├── Header.jsx           # Header responsive con menú hamburguesa
-│   │   ├── Footer.jsx           # Footer con logo y copyright
-│   │   ├── ProductCard.jsx      # Card de producto con favoritos
-│   │   ├── ProductCardSkeleton.jsx # Skeleton de carga
-│   │   ├── SearchHero.jsx       # Hero con buscador y datepickers
-│   │   ├── Categories.jsx       # Categorías con iconos
-│   │   └── WhatsAppButton.jsx   # Botón flotante de WhatsApp
+│   ├── assets/
+│   │   ├── notFound/img-found.jpg          # Personaje con lupa
+│   │   └── reserva/confirmacion-reserva.svg # Chica celebrando
 │   ├── pages/
-│   │   ├── Home.jsx             # Página principal con productos
-│   │   ├── ProductDetail.jsx    # Detalle completo con flujo de reserva
-│   │   ├── Login.jsx            # Iniciar sesión
-│   │   ├── Register.jsx         # Crear cuenta
-│   │   ├── Profile.jsx          # Perfil con reservas y favoritos
-│   │   └── admin/
-│   │       ├── AdminLayout.jsx  # Layout del panel admin
-│   │       ├── AdminUsers.jsx   # Gestión de usuarios
-│   │       ├── AdminCategories.jsx # Gestión de categorías
-│   │       └── AdminProducts.jsx # Gestión de productos
-│   └── assets/                  # Imágenes y recursos
-├── tailwind.config.js           # Configuración de Tailwind
-├── vite.config.js               # Configuración de Vite (puerto 3000)
-├── API_DOCUMENTATION.md         # Documentación de endpoints
-└── package.json                 # Dependencias
+│   │   ├── NotFound.jsx      # Página de error 404/400
+│   │   ├── ProductDetail.jsx # Con modal de éxito/error
+│   │   └── Profile.jsx       # Historial y detalle de reservas
+│   └── ...
 ```
 
 ## Flujo de Reserva Completo
 
-### 1. Selección de Producto
-- Ver catálogo con filtros por categoría
-- Buscar por nombre
-- Agregar a favoritos
+1. **Selección de fechas** → Calcula automáticamente días y precio total
+2. **Formulario de reserva** → Pre-llena datos del usuario logueado
+3. **Procesamiento** → Spinner de carga mientras se procesa
+4. **Resultado:**
+   - **Éxito (200):** Muestra imagen de celebración + detalles de reserva
+   - **Error (400):** Muestra imagen del personaje con lupa + mensaje de error
+   - **Error de red:** Simula éxito para desarrollo sin backend
 
-### 2. Detalle de Producto
-- Galería de imágenes
-- Descripción y características
-- Reviews de otros usuarios
-- Selección de fechas con DatePicker
-- Cálculo automático del precio total
+## Manejo de Errores
 
-### 3. Formulario de Reserva
-- Datos del cliente (nombre, email, teléfono, dirección)
-- Resumen del producto y fechas
-- Políticas de reserva
-- Botón de confirmación
-
-### 4. Confirmación de Reserva
-- Número de reserva único
-- Resumen completo de la reserva
-- Datos de entrega
-- Notificación por email (simulada)
-- Opciones: volver al inicio o nueva reserva
-
-### 5. Perfil de Usuario
-- Historial de reservas con estados (activa, completada, cancelada)
-- Lista de favoritos
-- Datos personales
-
-## Funcionalidades Implementadas
-- ✅ Diseño completamente responsive (mobile, tablet, desktop)
-- ✅ Header con menú hamburguesa en mobile
-- ✅ Buscador con autocompletado
-- ✅ Datepickers para fechas de reserva
-- ✅ Cálculo automático de días y precio total
-- ✅ Filtro por categorías
-- ✅ Paginación de productos
-- ✅ Favoritos (localStorage)
-- ✅ Skeletons de carga
-- ✅ Modal de reserva con múltiples pasos
-- ✅ Pantalla de éxito con detalles completos
-- ✅ Perfil con historial de reservas
-- ✅ Panel de administración completo (usuarios, categorías, productos)
-- ✅ Botón de WhatsApp flotante
-- ✅ Mock data para desarrollo sin backend
-
-## Configuración del API
-
-Para desplegar con tu backend, solo cambia esta URL en el archivo `.env`:
-
-```bash
-VITE_API_URL=https://tu-api-url.com
+```javascript
+// En ProductDetail.jsx
+if (res.status === 400) {
+  setErrorMessage(errorData.message);
+  setReservationStep('error'); // Muestra la imagen del error
+}
 ```
-
-Ver `API_DOCUMENTATION.md` para la lista completa de endpoints.
 
 ## Mock Data para Desarrollo
 
-La aplicación incluye datos de prueba que se cargan automáticamente cuando el backend no está disponible:
-- 8 productos de ejemplo (guitarras, bajos, baterías, saxofones, etc.)
-- 3 categorías (Cuerdas, Percusión, Vientos)
+- 8 productos de ejemplo
+- 3 categorías
+- 3 reservas de prueba en el perfil con diferentes estados
 - Login simulado (cualquier email/password funciona)
-- Reservas de prueba en el perfil
+- Email con "admin" → acceso al panel de administración
 
 ## Comandos
 
@@ -118,14 +88,6 @@ yarn dev      # Desarrollo en localhost:3000
 yarn build    # Build de producción
 yarn preview  # Preview del build
 ```
-
-## Notas Importantes
-
-1. **Imágenes:** Los productos no tienen imágenes reales, se muestra un placeholder. Cuando conectes tu backend, las imágenes deben venir en el formato `{ url: '/path/to/image.jpg' }`
-
-2. **Login Admin:** Usa un email que contenga "admin" (ej: admin@test.com) para acceder al panel de administración
-
-3. **Reservas:** El flujo de reserva funciona completamente. Cuando conectes el backend, los datos se enviarán a `/api/customer/reservation/create`
 
 ## Idioma Preferido del Usuario
 Español

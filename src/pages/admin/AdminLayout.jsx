@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate, Outlet, useLocation } from 'react-router-dom';
 import { Users, FolderTree, List, Plus, LogOut } from 'lucide-react';
-import { useApp } from '../context/AppContext';
-import logo from '../assets/img_header/logo.png';
+import { useApp } from '../../context/AppContext';
+import logo from '../../assets/img_header/logo.png';
 
 const AdminLayout = () => {
   const { user, logout } = useApp();

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { User, Mail, Phone, MapPin, Calendar, Package, LogOut, Heart } from 'lucide-react';
+import { useNavigate, Link } from 'react-router-dom';
+import { User, Mail, Phone, MapPin, Calendar, Package, LogOut, Heart, ChevronRight, X, Star } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
 const Profile = () => {
@@ -9,6 +9,7 @@ const Profile = () => {
   const [activeTab, setActiveTab] = useState('reservas');
   const [reservations, setReservations] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedReservation, setSelectedReservation] = useState(null);
 
   useEffect(() => {
     if (!user) {
@@ -29,28 +30,72 @@ const Profile = () => {
       if (res.ok) {
         const data = await res.json();
         setReservations(data);
+      } else {
+        throw new Error('Failed to fetch');
       }
     } catch (error) {
       console.error('Error fetching reservations:', error);
       // Mock data for development
       setReservations([
         {
-          id: 'RES-001',
+          id: 'RES-1706486400001',
+          productId: '1',
           productName: 'Guitarra Fender CD60s',
           productImage: '/placeholder-instrument.png',
-          startDate: '2024-04-01',
-          endDate: '2024-04-05',
-          totalPrice: 150000,
-          status: 'completed'
+          startDate: '2024-04-01T00:00:00Z',
+          endDate: '2024-04-05T00:00:00Z',
+          totalDays: 4,
+          pricePerDay: 30000,
+          totalPrice: 120000,
+          status: 'completed',
+          customer: {
+            name: user?.name || 'Juan',
+            surname: user?.surname || 'Pérez',
+            email: user?.email || 'juan@email.com',
+            phone: '+57 300 123 4567',
+            address: 'Calle 123 #45-67, Bogotá'
+          },
+          createdAt: '2024-03-25T10:30:00Z'
         },
         {
-          id: 'RES-002',
+          id: 'RES-1706486400002',
+          productId: '4',
           productName: 'Batería Pearl Export',
           productImage: '/placeholder-instrument.png',
-          startDate: '2024-04-10',
-          endDate: '2024-04-15',
+          startDate: '2024-04-10T00:00:00Z',
+          endDate: '2024-04-15T00:00:00Z',
+          totalDays: 5,
+          pricePerDay: 50000,
           totalPrice: 250000,
-          status: 'active'
+          status: 'active',
+          customer: {
+            name: user?.name || 'Juan',
+            surname: user?.surname || 'Pérez',
+            email: user?.email || 'juan@email.com',
+            phone: '+57 300 123 4567',
+            address: 'Calle 123 #45-67, Bogotá'
+          },
+          createdAt: '2024-04-01T14:20:00Z'
+        },
+        {
+          id: 'RES-1706486400003',
+          productId: '5',
+          productName: 'Saxofón Alto Yamaha YAS-280',
+          productImage: '/placeholder-instrument.png',
+          startDate: '2024-05-01T00:00:00Z',
+          endDate: '2024-05-03T00:00:00Z',
+          totalDays: 2,
+          pricePerDay: 40000,
+          totalPrice: 80000,
+          status: 'pending',
+          customer: {
+            name: user?.name || 'Juan',
+            surname: user?.surname || 'Pérez',
+            email: user?.email || 'juan@email.com',
+            phone: '+57 300 123 4567',
+            address: 'Calle 123 #45-67, Bogotá'
+          },
+          createdAt: '2024-04-28T09:15:00Z'
         }
       ]);
     } finally {
@@ -63,18 +108,18 @@ const Profile = () => {
   const getStatusBadge = (status) => {
     const styles = {
       active: 'bg-green-100 text-green-700',
-      completed: 'bg-gray-100 text-gray-700',
+      completed: 'bg-blue-100 text-blue-700',
       cancelled: 'bg-red-100 text-red-700',
       pending: 'bg-yellow-100 text-yellow-700',
     };
     const labels = {
-      active: 'Activa',
+      active: 'En curso',
       completed: 'Completada',
       cancelled: 'Cancelada',
       pending: 'Pendiente',
     };
     return (
-      <span className={`px-3 py-1 rounded-full text-sm font-medium ${styles[status] || styles.pending}`}>
+      <span className={`px-3 py-1 rounded-full text-xs font-medium ${styles[status] || styles.pending}`}>
         {labels[status] || status}
       </span>
     );
@@ -114,7 +159,7 @@ const Profile = () => {
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-2 mb-6 overflow-x-auto">
+        <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
           <button
             onClick={() => setActiveTab('reservas')}
             className={`flex items-center gap-2 px-5 py-3 rounded-xl font-medium transition-colors whitespace-nowrap ${
@@ -184,11 +229,15 @@ const Profile = () => {
               ) : (
                 <div className="space-y-4">
                   {reservations.map(reservation => (
-                    <div key={reservation.id} className="flex flex-col sm:flex-row gap-4 p-4 bg-gray-50 rounded-xl">
+                    <div 
+                      key={reservation.id} 
+                      onClick={() => setSelectedReservation(reservation)}
+                      className="flex flex-col sm:flex-row gap-4 p-4 bg-gray-50 rounded-xl cursor-pointer hover:bg-gray-100 transition-colors"
+                    >
                       <img
                         src={reservation.productImage}
                         alt={reservation.productName}
-                        className="w-full sm:w-24 h-32 sm:h-24 object-cover rounded-lg"
+                        className="w-full sm:w-24 h-32 sm:h-24 object-cover rounded-lg bg-gray-200"
                       />
                       <div className="flex-1">
                         <div className="flex flex-wrap items-start justify-between gap-2 mb-2">
@@ -199,9 +248,12 @@ const Profile = () => {
                           <span className="font-medium">Reserva:</span> {reservation.id}
                         </p>
                         <p className="text-sm text-gray-500 mb-2">
-                          {new Date(reservation.startDate).toLocaleDateString('es-ES')} - {new Date(reservation.endDate).toLocaleDateString('es-ES')}
+                          📅 {new Date(reservation.startDate).toLocaleDateString('es-ES')} - {new Date(reservation.endDate).toLocaleDateString('es-ES')}
                         </p>
-                        <p className="font-bold text-primary-500">${reservation.totalPrice?.toLocaleString()}</p>
+                        <div className="flex items-center justify-between">
+                          <p className="font-bold text-primary-500">${reservation.totalPrice?.toLocaleString()}</p>
+                          <ChevronRight size={20} className="text-gray-400" />
+                        </div>
                       </div>
                     </div>
                   ))}
@@ -229,21 +281,25 @@ const Profile = () => {
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   {favoriteProducts.map(product => (
-                    <div
+                    <Link
                       key={product.id}
-                      onClick={() => navigate(`/producto/${product.id}`)}
-                      className="flex gap-4 p-4 bg-gray-50 rounded-xl cursor-pointer hover:bg-gray-100 transition-colors"
+                      to={`/producto/${product.id}`}
+                      className="flex gap-4 p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors"
                     >
                       <img
                         src={product.images?.[0]?.url ? `${API_URL}${product.images[0].url}` : '/placeholder-instrument.png'}
                         alt={product.name}
-                        className="w-20 h-20 object-cover rounded-lg"
+                        className="w-20 h-20 object-cover rounded-lg bg-gray-200"
                       />
-                      <div>
+                      <div className="flex-1">
                         <h3 className="font-semibold text-gray-800 line-clamp-2">{product.name}</h3>
+                        <div className="flex items-center gap-1 mt-1">
+                          <Star size={14} className="text-yellow-400 fill-yellow-400" />
+                          <span className="text-sm text-gray-500">4.5</span>
+                        </div>
                         <p className="text-primary-500 font-bold mt-1">${product.price?.toLocaleString()}/día</p>
                       </div>
-                    </div>
+                    </Link>
                   ))}
                 </div>
               )}
@@ -304,6 +360,130 @@ const Profile = () => {
           )}
         </div>
       </div>
+
+      {/* Reservation Detail Modal */}
+      {selectedReservation && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 overflow-y-auto">
+          <div className="bg-white rounded-3xl w-full max-w-2xl my-8 relative">
+            <button
+              onClick={() => setSelectedReservation(null)}
+              className="absolute top-4 right-4 p-2 hover:bg-gray-100 rounded-full z-10"
+            >
+              <X size={20} />
+            </button>
+
+            <div className="p-6 lg:p-8">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-xl font-bold text-gray-800">Detalle de Reserva</h2>
+                {getStatusBadge(selectedReservation.status)}
+              </div>
+
+              {/* Product Info */}
+              <div className="flex gap-4 p-4 bg-gray-50 rounded-xl mb-6">
+                <img
+                  src={selectedReservation.productImage}
+                  alt={selectedReservation.productName}
+                  className="w-24 h-24 object-cover rounded-lg bg-gray-200"
+                />
+                <div className="flex-1">
+                  <h3 className="font-semibold text-gray-800">{selectedReservation.productName}</h3>
+                  <p className="text-sm text-gray-500 mt-1">ID de reserva: {selectedReservation.id}</p>
+                  <p className="text-sm text-gray-500">
+                    Reservado el: {new Date(selectedReservation.createdAt).toLocaleDateString('es-ES', { 
+                      year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' 
+                    })}
+                  </p>
+                </div>
+              </div>
+
+              {/* Dates */}
+              <div className="grid grid-cols-3 gap-4 mb-6">
+                <div className="p-4 bg-gray-50 rounded-xl text-center">
+                  <p className="text-xs text-gray-500 mb-1">Fecha inicio</p>
+                  <p className="font-semibold">{new Date(selectedReservation.startDate).toLocaleDateString('es-ES')}</p>
+                </div>
+                <div className="p-4 bg-gray-50 rounded-xl text-center">
+                  <p className="text-xs text-gray-500 mb-1">Fecha fin</p>
+                  <p className="font-semibold">{new Date(selectedReservation.endDate).toLocaleDateString('es-ES')}</p>
+                </div>
+                <div className="p-4 bg-primary-50 rounded-xl text-center">
+                  <p className="text-xs text-primary-600 mb-1">Total días</p>
+                  <p className="font-bold text-primary-600">{selectedReservation.totalDays}</p>
+                </div>
+              </div>
+
+              {/* Price Breakdown */}
+              <div className="border-t border-gray-100 pt-4 mb-6">
+                <h4 className="font-semibold text-gray-800 mb-3">Resumen de pago</h4>
+                <div className="space-y-2">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-600">Precio por día</span>
+                    <span>${selectedReservation.pricePerDay?.toLocaleString()}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-600">Días de alquiler</span>
+                    <span>{selectedReservation.totalDays} días</span>
+                  </div>
+                  <div className="flex justify-between font-bold text-lg pt-2 border-t border-gray-100">
+                    <span>Total</span>
+                    <span className="text-primary-500">${selectedReservation.totalPrice?.toLocaleString()}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Customer Info */}
+              <div className="border-t border-gray-100 pt-4 mb-6">
+                <h4 className="font-semibold text-gray-800 mb-3">Datos de entrega</h4>
+                <div className="space-y-2 text-sm">
+                  <p className="flex items-center gap-2">
+                    <User size={16} className="text-gray-400" />
+                    <span className="text-gray-600">Nombre:</span>
+                    <span className="font-medium">{selectedReservation.customer.name} {selectedReservation.customer.surname}</span>
+                  </p>
+                  <p className="flex items-center gap-2">
+                    <Mail size={16} className="text-gray-400" />
+                    <span className="text-gray-600">Email:</span>
+                    <span className="font-medium">{selectedReservation.customer.email}</span>
+                  </p>
+                  <p className="flex items-center gap-2">
+                    <Phone size={16} className="text-gray-400" />
+                    <span className="text-gray-600">Teléfono:</span>
+                    <span className="font-medium">{selectedReservation.customer.phone}</span>
+                  </p>
+                  <p className="flex items-center gap-2">
+                    <MapPin size={16} className="text-gray-400" />
+                    <span className="text-gray-600">Dirección:</span>
+                    <span className="font-medium">{selectedReservation.customer.address}</span>
+                  </p>
+                </div>
+              </div>
+
+              {/* Actions */}
+              <div className="flex gap-4">
+                <button
+                  onClick={() => setSelectedReservation(null)}
+                  className="flex-1 py-3 border border-gray-200 rounded-xl font-medium hover:bg-gray-50 transition-colors"
+                >
+                  Cerrar
+                </button>
+                {selectedReservation.status === 'pending' && (
+                  <button className="flex-1 py-3 bg-red-500 text-white rounded-xl font-medium hover:bg-red-600 transition-colors">
+                    Cancelar reserva
+                  </button>
+                )}
+                {selectedReservation.status === 'completed' && (
+                  <Link
+                    to={`/producto/${selectedReservation.productId}`}
+                    className="flex-1 py-3 bg-primary-500 text-white rounded-xl font-medium hover:bg-primary-600 transition-colors text-center"
+                  >
+                    Reservar de nuevo
+                  </Link>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 };

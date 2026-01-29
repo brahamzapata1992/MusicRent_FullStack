@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import ProductDetail from './pages/ProductDetail';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Profile from './pages/Profile';
 import AdminLayout from './pages/admin/AdminLayout';
 import AdminUsers from './pages/admin/AdminUsers';
 import AdminCategories from './pages/admin/AdminCategories';
@@ -37,6 +38,7 @@ const App = () => {
                   <Route path="/login" element={<Login />} />
                   <Route path="/inicioSesion" element={<Navigate to="/login" replace />} />
                   <Route path="/registro" element={<Register />} />
+                  <Route path="/perfil" element={<Profile />} />
                 </Routes>
               </div>
               <Footer />

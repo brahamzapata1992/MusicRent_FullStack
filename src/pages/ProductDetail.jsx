@@ -1,9 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
-import { ArrowLeft, Heart, Share2, Star, Calendar, Sparkles, Music, Award, X, Check } from 'lucide-react';
+import { ArrowLeft, Heart, Share2, Star, Calendar, Sparkles, Music, Award, X } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import "react-datepicker/dist/react-datepicker.css";
+
+// Images
+import errorImg from '../assets/notFound/img-found.jpg';
+import successImg from '../assets/reserva/confirmacion-reserva.svg';
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -24,6 +28,7 @@ const ProductDetail = () => {
     phone: '',
   });
   const [reservationResult, setReservationResult] = useState(null);
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     const found = products.find(p => p.id?.toString() === id);
@@ -62,6 +67,7 @@ const ProductDetail = () => {
     }
 
     setReservationStep('loading');
+    setErrorMessage('');
 
     // Prepare reservation payload
     const payload = {
@@ -99,12 +105,16 @@ const ProductDetail = () => {
           createdAt: new Date().toISOString(),
         });
         setReservationStep('success');
+      } else if (res.status === 400) {
+        const errorData = await res.json();
+        setErrorMessage(errorData.message || 'Error en la solicitud. Verifica los datos e intenta de nuevo.');
+        setReservationStep('error');
       } else {
         throw new Error('Error en la reserva');
       }
     } catch (error) {
       console.error('Error creating reservation:', error);
-      // Simular reserva exitosa para desarrollo sin backend
+      // For development without backend - simulate success
       setReservationResult({
         ...payload,
         reservationId: 'RES-' + Date.now(),
@@ -119,6 +129,7 @@ const ProductDetail = () => {
     setReservationStep('form');
     setStartDate(null);
     setEndDate(null);
+    setErrorMessage('');
     setReservationData({
       name: user?.name || '',
       surname: user?.surname || '',
@@ -526,105 +537,82 @@ const ProductDetail = () => {
               </div>
             )}
 
-            {/* STEP: Success */}
+            {/* STEP: Success - With celebration image */}
             {reservationStep === 'success' && reservationResult && (
-              <div className="p-6 lg:p-8">
-                {/* Success Header */}
-                <div className="text-center mb-8">
-                  <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Check size={40} className="text-green-500" />
-                  </div>
-                  <h2 className="text-2xl font-bold text-gray-800 mb-2">¡Reserva exitosa!</h2>
-                  <p className="text-gray-600">Gracias por confiar en nosotros</p>
-                </div>
+              <div className="flex flex-col lg:flex-row">
+                {/* Left side - Details */}
+                <div className="flex-1 p-6 lg:p-8">
+                  <h2 className="text-2xl font-bold text-gray-800 mb-2">¡Su reserva se ha realizado con éxito!</h2>
+                  <p className="text-gray-600 mb-6">Gracias por confiar en nosotros.</p>
 
-                {/* Reservation Details */}
-                <div className="bg-gray-50 rounded-2xl p-6 mb-6">
-                  <div className="flex items-center justify-between mb-4 pb-4 border-b border-gray-200">
-                    <span className="text-sm text-gray-500">Número de reserva</span>
-                    <span className="font-mono font-bold text-primary-600">{reservationResult.reservationId}</span>
-                  </div>
-
-                  <div className="flex gap-4 mb-4">
-                    <img
-                      src={currentImage}
-                      alt={product.name}
-                      className="w-24 h-24 object-cover rounded-xl"
-                    />
-                    <div>
-                      <h3 className="font-semibold text-gray-800">{reservationResult.productName}</h3>
-                      <p className="text-sm text-gray-500">{product.category?.name}</p>
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-2">
+                      <span className="text-gray-500">•</span>
+                      <span className="text-gray-600">Fechas de reserva:</span>
+                      <span className="font-medium">
+                        {new Date(reservationResult.startDate).toLocaleDateString('es-ES')} - {new Date(reservationResult.endDate).toLocaleDateString('es-ES')}
+                      </span>
                     </div>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4 mb-4">
-                    <div>
-                      <p className="text-xs text-gray-500">Fecha de inicio</p>
-                      <p className="font-medium">{new Date(reservationResult.startDate).toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                    <div className="flex items-center gap-2">
+                      <span className="text-gray-500">•</span>
+                      <span className="text-gray-600">Nombre del producto:</span>
+                      <span className="font-medium">{reservationResult.productName}</span>
                     </div>
-                    <div>
-                      <p className="text-xs text-gray-500">Fecha de fin</p>
-                      <p className="font-medium">{new Date(reservationResult.endDate).toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                    <div className="flex items-center gap-2">
+                      <span className="text-gray-500">•</span>
+                      <span className="text-gray-600">Precio total:</span>
+                      <span className="font-bold text-primary-500">${reservationResult.totalPrice?.toLocaleString()}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-gray-500">•</span>
+                      <span className="text-gray-600">Número de reserva:</span>
+                      <span className="font-mono font-bold">{reservationResult.reservationId}</span>
                     </div>
                   </div>
 
-                  <div className="border-t border-gray-200 pt-4">
-                    <div className="flex justify-between mb-2">
-                      <span className="text-gray-600">${reservationResult.pricePerDay?.toLocaleString()} x {reservationResult.totalDays} días</span>
-                      <span className="font-medium">${reservationResult.totalPrice?.toLocaleString()}</span>
-                    </div>
-                    <div className="flex justify-between text-lg font-bold">
-                      <span>Total pagado</span>
-                      <span className="text-primary-600">${reservationResult.totalPrice?.toLocaleString()}</span>
-                    </div>
+                  <div className="mt-8 flex gap-4">
+                    <button
+                      onClick={() => navigate('/')}
+                      className="flex-1 py-3 border border-gray-200 rounded-xl font-medium hover:bg-gray-50 transition-colors"
+                    >
+                      Volver al inicio
+                    </button>
+                    <button
+                      onClick={() => navigate('/perfil')}
+                      className="flex-1 py-3 bg-primary-500 text-white rounded-xl font-medium hover:bg-primary-600 transition-colors"
+                    >
+                      Ver mis reservas
+                    </button>
                   </div>
                 </div>
 
-                {/* Customer Info */}
-                <div className="bg-gray-50 rounded-2xl p-6 mb-6">
-                  <h4 className="font-semibold text-gray-800 mb-3">Datos de entrega</h4>
-                  <div className="space-y-2 text-sm">
-                    <p><span className="text-gray-500">Nombre:</span> {reservationResult.customer.name} {reservationResult.customer.surname}</p>
-                    <p><span className="text-gray-500">Email:</span> {reservationResult.customer.email}</p>
-                    <p><span className="text-gray-500">Teléfono:</span> {reservationResult.customer.phone}</p>
-                    <p><span className="text-gray-500">Dirección:</span> {reservationResult.customer.address}</p>
-                  </div>
-                </div>
-
-                {/* Info */}
-                <div className="bg-blue-50 rounded-xl p-4 mb-6">
-                  <p className="text-sm text-blue-800">
-                    <strong>📧 Confirmación enviada:</strong> Hemos enviado los detalles de tu reserva a {reservationResult.customer.email}
-                  </p>
-                </div>
-
-                {/* Actions */}
-                <div className="flex gap-4">
-                  <button
-                    onClick={() => navigate('/')}
-                    className="flex-1 py-3 border border-gray-200 rounded-xl font-medium hover:bg-gray-50 transition-colors"
-                  >
-                    Volver al inicio
-                  </button>
-                  <button
-                    onClick={resetReservation}
-                    className="flex-1 py-3 bg-primary-500 text-white rounded-xl font-medium hover:bg-primary-600 transition-colors"
-                  >
-                    Nueva reserva
-                  </button>
+                {/* Right side - Celebration image */}
+                <div className="hidden lg:flex items-center justify-center bg-gradient-to-br from-yellow-100 to-orange-100 rounded-r-3xl p-8">
+                  <img
+                    src={successImg}
+                    alt="¡Reserva exitosa!"
+                    className="w-64 h-auto object-contain"
+                  />
                 </div>
               </div>
             )}
 
-            {/* STEP: Error */}
+            {/* STEP: Error - With error image */}
             {reservationStep === 'error' && (
               <div className="p-8 text-center">
-                <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <X size={40} className="text-red-500" />
-                </div>
+                <img
+                  src={errorImg}
+                  alt="Error"
+                  className="w-48 h-48 object-contain mx-auto mb-6"
+                />
                 <h2 className="text-xl font-bold text-gray-800 mb-2">¡Ups! Algo salió mal</h2>
-                <p className="text-gray-600 mb-6">No pudimos procesar tu reserva. Por favor intenta de nuevo.</p>
-                <div className="flex gap-4">
+                <p className="text-gray-600 mb-2">
+                  {errorMessage || 'No pudimos procesar tu reserva. Por favor intenta de nuevo.'}
+                </p>
+                <p className="text-sm text-gray-500 mb-6">
+                  Si el problema persiste, por favor contáctanos o intenta más tarde.
+                </p>
+                <div className="flex gap-4 max-w-md mx-auto">
                   <button
                     onClick={resetReservation}
                     className="flex-1 py-3 border border-gray-200 rounded-xl font-medium hover:bg-gray-50 transition-colors"

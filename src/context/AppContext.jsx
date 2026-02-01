@@ -14,7 +14,15 @@ export const useApp = () => {
 export const AppProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
     const saved = localStorage.getItem('user');
-    return saved ? JSON.parse(saved) : null;
+    if (saved) {
+      const userData = JSON.parse(saved);
+      // Normalize role to uppercase for consistency
+      if (userData.role) {
+        userData.role = userData.role.toUpperCase();
+      }
+      return userData;
+    }
+    return null;
   });
   const [token, setToken] = useState(localStorage.getItem('token'));
   const [products, setProducts] = useState([]);

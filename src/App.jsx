@@ -13,6 +13,18 @@ import AdminUsers from './pages/admin/AdminUsers';
 import AdminCategories from './pages/admin/AdminCategories';
 import AdminProducts from './pages/admin/AdminProducts';
 
+// Layout component for public routes
+const PublicLayout = ({ children }) => (
+  <>
+    <Header />
+    <div className="flex-1">
+      {children}
+    </div>
+    <Footer />
+    <WhatsAppButton />
+  </>
+);
+
 const App = () => {
   return (
     <div className="flex flex-col min-h-screen">
@@ -26,29 +38,15 @@ const App = () => {
         </Route>
 
         {/* Public Routes - With Header/Footer */}
-        <Route
-          path="*"
-          element={
-            <>
-              <Header />
-              <div className="flex-1">
-                <Routes>
-                  <Route path="/" element={<Home />} />
-                  <Route path="/home" element={<Navigate to="/" replace />} />
-                  <Route path="/producto/:id" element={<ProductDetail />} />
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/inicioSesion" element={<Navigate to="/login" replace />} />
-                  <Route path="/registro" element={<Register />} />
-                  <Route path="/perfil" element={<Profile />} />
-                  <Route path="/error" element={<NotFound />} />
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </div>
-              <Footer />
-              <WhatsAppButton />
-            </>
-          }
-        />
+        <Route path="/" element={<PublicLayout><Home /></PublicLayout>} />
+        <Route path="/home" element={<Navigate to="/" replace />} />
+        <Route path="/producto/:id" element={<PublicLayout><ProductDetail /></PublicLayout>} />
+        <Route path="/login" element={<PublicLayout><Login /></PublicLayout>} />
+        <Route path="/inicioSesion" element={<Navigate to="/login" replace />} />
+        <Route path="/registro" element={<PublicLayout><Register /></PublicLayout>} />
+        <Route path="/perfil" element={<PublicLayout><Profile /></PublicLayout>} />
+        <Route path="/error" element={<PublicLayout><NotFound /></PublicLayout>} />
+        <Route path="*" element={<PublicLayout><NotFound /></PublicLayout>} />
       </Routes>
     </div>
   );

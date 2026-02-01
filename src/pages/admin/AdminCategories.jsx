@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Search, Trash2, Plus, X } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
+import { getBase64ImageSrc } from '../../config/api';
 
 const AdminCategories = () => {
   const { categories, createCategory, deleteCategory, API_URL } = useApp();

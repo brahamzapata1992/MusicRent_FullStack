@@ -21,7 +21,7 @@ const Login = () => {
     
     if (result.success) {
       // Redirect based on role - ADMIN goes to admin panel
-      if (result.user?.role === 'ADMIN') {
+      if (result.user?.role?.toUpperCase() === 'ADMIN') {
         navigate('/admin');
       } else {
         navigate('/');

@@ -12,7 +12,7 @@ import successImg from '../assets/reserva/confirmacion-reserva.svg';
 const ProductDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { products, toggleFavorite, isFavorite, user, API_URL, token } = useApp();
+  const { products, toggleFavorite, isFavorite, user, API_URL, createReservation, fetchProductById } = useApp();
   
   const [product, setProduct] = useState(null);
   const [selectedImage, setSelectedImage] = useState(0);

@@ -211,7 +211,7 @@ const Profile = () => {
                     // Handle base64 imageData format (same as ProductCard)
                     const getImageSrc = () => {
                       if (product.images && product.images[0] && product.images[0].imageData) {
-                        return `data:image/jpeg;base64,${product.images[0].imageData}`;
+                        return getBase64ImageSrc(product.images[0].imageData);
                       }
                       return '/placeholder-instrument.png';
                     };

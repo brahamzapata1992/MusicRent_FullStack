@@ -187,21 +187,40 @@ export const AppProvider = ({ children }) => {
     const isFav = favorites.includes(productId);
     const method = isFav ? 'DELETE' : 'POST';
     
+    // Optimistic update
+    if (isFav) {
+      setFavorites(prev => prev.filter(id => id !== productId));
+    } else {
+      setFavorites(prev => [...prev, productId]);
+    }
+    
     try {
       const res = await fetch(`${API_URL}/api/favorites/${user.userId}/${productId}`, {
         method,
-        headers: token ? { Authorization: `Bearer ${token}` } : {},
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token && { Authorization: `Bearer ${token}` }),
+        },
       });
       
-      if (res.ok) {
+      // If API fails, revert the optimistic update
+      if (!res.ok) {
+        console.error('Error toggling favorite:', res.status);
+        // Revert
         if (isFav) {
-          setFavorites(prev => prev.filter(id => id !== productId));
-        } else {
           setFavorites(prev => [...prev, productId]);
+        } else {
+          setFavorites(prev => prev.filter(id => id !== productId));
         }
       }
     } catch (error) {
       console.error('Error toggling favorite:', error);
+      // Revert on network error
+      if (isFav) {
+        setFavorites(prev => [...prev, productId]);
+      } else {
+        setFavorites(prev => prev.filter(id => id !== productId));
+      }
     }
   };
 

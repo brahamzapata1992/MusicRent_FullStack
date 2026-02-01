@@ -20,7 +20,12 @@ const Login = () => {
     const result = await login(email, password);
     
     if (result.success) {
-      navigate('/');
+      // Redirect based on role - ADMIN goes to admin panel
+      if (result.user?.role === 'ADMIN') {
+        navigate('/admin');
+      } else {
+        navigate('/');
+      }
     } else {
       setError(result.message);
     }

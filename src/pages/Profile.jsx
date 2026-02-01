@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { User, Mail, Phone, MapPin, Calendar, Package, LogOut, Heart, ChevronRight, X, Star } from 'lucide-react';
 import { useApp } from '../context/AppContext';
+import { getBase64ImageSrc } from '../config/api';
 
 const Profile = () => {
   const { user, logout, favorites, products, fetchReservationHistory } = useApp();

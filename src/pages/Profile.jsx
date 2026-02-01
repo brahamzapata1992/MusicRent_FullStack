@@ -4,7 +4,7 @@ import { User, Mail, Phone, MapPin, Calendar, Package, LogOut, Heart, ChevronRig
 import { useApp } from '../context/AppContext';
 
 const Profile = () => {
-  const { user, logout, favorites, products, API_URL, token } = useApp();
+  const { user, logout, favorites, products, API_URL, fetchReservationHistory } = useApp();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('reservas');
   const [reservations, setReservations] = useState([]);
@@ -18,27 +18,15 @@ const Profile = () => {
   }, [user, navigate]);
 
   useEffect(() => {
-    fetchReservations();
-  }, []);
+    loadReservations();
+  }, [user]);
 
-  const fetchReservations = async () => {
+  const loadReservations = async () => {
+    if (!user?.userId) return;
     setLoading(true);
-    try {
-      const res = await fetch(`${API_URL}/api/customer/reservations`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      if (res.ok) {
-        const data = await res.json();
-        setReservations(data);
-      } else {
-        throw new Error('Failed to fetch');
-      }
-    } catch (error) {
-      console.error('Error fetching reservations:', error);
-      setReservations([]);
-    } finally {
-      setLoading(false);
-    }
+    const data = await fetchReservationHistory();
+    setReservations(data);
+    setLoading(false);
   };
 
   const favoriteProducts = products.filter(p => favorites.includes(p.id));

@@ -17,6 +17,10 @@ const Categories = ({ onCategorySelect }) => {
   const getCategoryImage = (category) => {
     // First try to use base64 img from API
     if (category.img) {
+      // Detect if it's SVG (starts with PHN2 which is <svg in base64) or regular image
+      if (category.img.startsWith('PHN2') || category.img.startsWith('PD94')) {
+        return `data:image/svg+xml;base64,${category.img}`;
+      }
       return `data:image/jpeg;base64,${category.img}`;
     }
     // Fallback to local SVG images

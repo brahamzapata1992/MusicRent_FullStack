@@ -41,7 +41,7 @@ const ProductDetail = () => {
       setReservationData(prev => ({
         ...prev,
         name: user.name || '',
-        surname: user.surname || '',
+        surname: user.lastName || '',
         email: user.email || '',
       }));
     }

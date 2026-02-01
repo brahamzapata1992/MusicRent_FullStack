@@ -195,7 +195,7 @@ const ProductDetail = () => {
                       }`}
                     >
                       <img
-                        src={`${API_URL}${img.url}`}
+                        src={getImageSrc(img)}
                         alt=""
                         className="w-full h-full object-cover"
                       />

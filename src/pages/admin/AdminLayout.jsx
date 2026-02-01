@@ -10,7 +10,7 @@ const AdminLayout = () => {
   const location = useLocation();
 
   useEffect(() => {
-    if (!user || user.role !== 'admin') {
+    if (!user || user.role?.toUpperCase() !== 'ADMIN') {
       navigate('/login');
     }
   }, [user, navigate]);
@@ -23,7 +23,7 @@ const AdminLayout = () => {
 
   const currentTab = tabs.find(t => location.pathname.includes(t.id))?.id || 'usuarios';
 
-  if (!user || user.role !== 'admin') {
+  if (!user || user.role?.toUpperCase() !== 'ADMIN') {
     return null;
   }
 

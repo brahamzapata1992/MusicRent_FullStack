@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Search, Trash2, Plus, Edit, X } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
+import { getBase64ImageSrc } from '../../config/api';
 
 const AdminProducts = () => {
   const { products, categories, createProduct, updateProduct, deleteProduct, API_URL } = useApp();

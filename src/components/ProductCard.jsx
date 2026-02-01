@@ -3,19 +3,29 @@ import { Heart } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
 const ProductCard = ({ product }) => {
-  const { toggleFavorite, isFavorite, API_URL } = useApp();
+  const { toggleFavorite, isFavorite } = useApp();
   const favorite = isFavorite(product.id);
 
-  const imageUrl = product.images?.[0]?.url 
-    ? `${API_URL}${product.images[0].url}`
-    : '/placeholder-instrument.png';
+  // Get image - handle base64 imageData
+  const getImageSrc = () => {
+    if (product.images && product.images[0] && product.images[0].imageData) {
+      return `data:image/jpeg;base64,${product.images[0].imageData}`;
+    }
+    return '/placeholder-instrument.png';
+  };
+
+  const handleFavoriteClick = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    await toggleFavorite(product.id);
+  };
 
   return (
     <div className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden group">
       <Link to={`/producto/${product.id}`} className="block">
         <div className="relative aspect-square bg-gray-100 overflow-hidden">
           <img
-            src={imageUrl}
+            src={getImageSrc()}
             alt={product.name}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
             onError={(e) => {
@@ -33,7 +43,7 @@ const ProductCard = ({ product }) => {
             </h3>
           </Link>
           <button
-            onClick={() => toggleFavorite(product.id)}
+            onClick={handleFavoriteClick}
             className={`p-2 rounded-full transition-all ${
               favorite
                 ? 'bg-red-50 text-red-500'

@@ -1,113 +1,51 @@
-# Music Rent - E-commerce de Alquiler de Instrumentos Musicales
+# Music Rent - PRD
 
-## Descripción del Proyecto
-Aplicación web frontend para alquiler de instrumentos musicales construida con React + Vite + Tailwind CSS. Se conecta a un backend Spring Boot externo del usuario (localhost:8081).
+## Descripción
+Aplicación de alquiler de instrumentos musicales con React (Vite) frontend que consume una API Java/Spring en localhost:8081.
 
-## Stack Técnico
-- **Frontend:** React 18, Vite 5
-- **Estilos:** Tailwind CSS 3.4
-- **Iconos:** Lucide React
-- **Routing:** React Router DOM 6
-- **Date Picker:** React DatePicker
-- **Estado:** React Context API
-- **Backend:** Spring Boot (externo, localhost:8081) - NO incluido en este proyecto
+## Bugs Corregidos (2 Feb 2026)
 
-## Pantallas Implementadas
+### 1. Imágenes de favoritos no renderizaban
+- **Archivo:** `/app/src/pages/Profile.jsx`
+- **Problema:** Usaba `API_URL + url` pero las imágenes vienen en base64 (`imageData`)
+- **Fix:** Cambiar a `data:image/jpeg;base64,${imageData}`
 
-### 1. Home
-- Hero con buscador (producto, fechas, categoría)
-- Grid de categorías dinámicas desde API
-- Grid de productos con paginación
-- Loading skeletons
+### 2. Panel de administrador no cargaba
+- **Archivos:** `/app/src/context/AppContext.jsx`
+- **Problema:** El role del usuario no se normalizaba a mayúsculas al cargar de localStorage ni al hacer login
+- **Fix:** Normalizar `role.toUpperCase()` en login y al cargar de localStorage
 
-### 2. Login / Register
-- Formularios de autenticación
-- Integración con API `/users/authenticate` y `/users/sign-up`
+### 3. Filtro de categorías no funcionaba
+- **Archivo:** `/app/src/pages/Home.jsx`
+- **Problema:** Comparaba `product.category?.id` pero API devuelve `category_id`
+- **Fix:** Soportar ambos formatos: `product.category?.id || product.category_id || product.categoryId`
 
-### 3. Detalle de Producto
-- Galería de imágenes (soporta Base64 desde backend)
-- Selector de fechas para reserva
-- Cálculo automático de precio total
-- Modal de reserva con formulario
-- Estados: loading, success, error
+### 4. Imágenes de categorías en Admin
+- **Archivo:** `/app/src/pages/admin/AdminCategories.jsx`
+- **Problema:** Usaba `urlImg` pero API devuelve `img` en base64
+- **Fix:** Verificar primero `img` para base64, luego `urlImg`
 
-### 4. Perfil de Usuario
-- Tabs: Mis Reservas, Favoritos, Mis Datos
-- Historial de reservas con estados
-- Modal de detalle de reserva
+### 5. Imágenes de productos en Admin
+- **Archivo:** `/app/src/pages/admin/AdminProducts.jsx`
+- **Problema:** Usaba `url` pero API devuelve `imageData` en base64
+- **Fix:** Verificar primero `imageData` para base64
 
-### 5. Panel Admin
-- Gestión de productos (CRUD)
-- Gestión de categorías
-- Gestión de usuarios y roles
-
-### 6. Página 404/Error
+### 6. Categorías en Home
+- **Archivo:** `/app/src/components/Categories.jsx`
+- **Problema:** Solo usaba imágenes SVG locales
+- **Fix:** Priorizar imagen base64 de la API, fallback a SVG local
 
 ## Arquitectura
-```
-/app/
-├── src/
-│   ├── assets/           # Imágenes estáticas
-│   ├── components/       # Componentes reutilizables
-│   ├── config/api.js     # URL de la API centralizada
-│   ├── context/AppContext.jsx  # Estado global y llamadas API
-│   ├── pages/            # Páginas de la aplicación
-│   │   └── admin/        # Páginas del panel admin
-│   ├── App.jsx           # Rutas
-│   └── main.jsx          # Entry point
-├── .env                  # VITE_API_URL=http://localhost:8081
-└── API_DOCUMENTATION.md  # Documentación de endpoints
-```
+- Frontend: React + Vite + Tailwind CSS
+- Backend: API externa en localhost:8081 (Java/Spring)
+- DB: MySQL (categorias, productos, usuarios)
 
-## Bugs Corregidos (Feb 2025)
+## Estructura de datos de la API
+- Categorías: `{id, name, description, img (base64)}`
+- Productos: `{id, name, description, price, category_id, images: [{imageData (base64)}]}`
+- Usuarios: `{id, email, name, lastName, userRole: "ADMIN"|"CUSTOMER"}`
 
-### ✅ P0 - Imágenes Base64
-- **Problema:** Las imágenes de productos venían como Base64 y no se renderizaban
-- **Solución:** Implementada función `getImageSrc()` en `ProductCard.jsx` y `ProductDetail.jsx` que convierte `imageData` a Data URL
-
-### ✅ P1 - Toggle de Favoritos
-- **Problema:** El botón de favoritos no permitía quitar un producto de favoritos
-- **Solución:** Ya estaba implementado correctamente en `AppContext.jsx` - usa DELETE para quitar y POST para agregar
-
-### ✅ P2 - Filtrado Dinámico por Categorías
-- **Problema:** Las categorías estaban hardcodeadas
-- **Solución:** Ya estaba implementado - `Categories.jsx` usa categorías del contexto API
-
-## API Endpoints (Backend Spring Boot)
-
-### Auth
-- `POST /users/authenticate` - Login
-- `POST /users/sign-up` - Registro
-
-### Productos
-- `GET /api/admin/products` - Lista todos
-- `GET /api/admin/products/{id}` - Detalle
-- `GET /api/admin/products/byCategories?categoryIds={id}` - Por categoría
-- `POST/PUT/DELETE /api/admin/products` - CRUD
-
-### Categorías
-- `GET /api/admin/list` - Lista categorías
-- `POST /api/admin/category` - Crear
-- `DELETE /api/admin/category/delete/{id}` - Eliminar
-
-### Favoritos
-- `GET /api/favorites/{userId}` - Lista favoritos
-- `POST /api/favorites/{userId}/{productId}` - Agregar
-- `DELETE /api/favorites/{userId}/{productId}` - Quitar
-
-### Reservas
-- `POST /api/customer/reservation/create` - Crear
-- `GET /api/customer/reservation/history/{userId}` - Historial
-
-## Comandos
-
-```bash
-yarn dev      # Desarrollo en localhost:3000
-yarn build    # Build de producción
-```
-
-## Nota Importante
-El backend Spring Boot corre en la máquina del usuario (localhost:8081) y NO es accesible desde el entorno de desarrollo de Emergent. La UI funcionará correctamente cuando se despliegue junto con el backend.
-
-## Idioma Preferido del Usuario
-Español
+## Próximos pasos
+- Probar con API backend conectada
+- Verificar login de admin y redirección a panel
+- Verificar filtro de productos por categoría

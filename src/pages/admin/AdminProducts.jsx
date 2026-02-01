@@ -3,7 +3,7 @@ import { Search, Trash2, Plus, Edit, X } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 
 const AdminProducts = () => {
-  const { products, categories, fetchProducts, API_URL, token } = useApp();
+  const { products, categories, createProduct, updateProduct, deleteProduct, API_URL } = useApp();
   const [search, setSearch] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
@@ -13,11 +13,13 @@ const AdminProducts = () => {
     price: '',
     categoryId: '',
   });
+  const [imageFiles, setImageFiles] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const openCreateModal = () => {
     setEditingProduct(null);
     setFormData({ name: '', description: '', price: '', categoryId: '' });
+    setImageFiles([]);
     setShowModal(true);
   };
 
@@ -29,6 +31,7 @@ const AdminProducts = () => {
       price: product.price?.toString() || '',
       categoryId: product.category?.id?.toString() || '',
     });
+    setImageFiles([]);
     setShowModal(true);
   };
 
@@ -36,50 +39,33 @@ const AdminProducts = () => {
     e.preventDefault();
     setLoading(true);
     
-    const url = editingProduct
-      ? `${API_URL}/api/admin/products/${editingProduct.id}`
-      : `${API_URL}/api/admin/products`;
+    const data = new FormData();
+    data.append('name', formData.name);
+    data.append('description', formData.description);
+    data.append('price', formData.price);
+    data.append('categoryId', formData.categoryId);
     
-    const method = editingProduct ? 'PUT' : 'POST';
+    // Add images
+    imageFiles.forEach(file => {
+      data.append('images', file);
+    });
 
-    try {
-      const res = await fetch(url, {
-        method,
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          ...formData,
-          price: parseFloat(formData.price),
-        }),
-      });
-      
-      if (res.ok) {
-        fetchProducts();
-        setShowModal(false);
-      }
-    } catch (error) {
-      console.error('Error saving product:', error);
-    } finally {
-      setLoading(false);
+    let result;
+    if (editingProduct) {
+      result = await updateProduct(editingProduct.id, data);
+    } else {
+      result = await createProduct(data);
     }
+    
+    if (result.success) {
+      setShowModal(false);
+    }
+    setLoading(false);
   };
 
-  const deleteProduct = async (productId) => {
+  const handleDelete = async (productId) => {
     if (!confirm('¿Estás seguro de eliminar este producto?')) return;
-    
-    try {
-      const res = await fetch(`${API_URL}/api/admin/products/${productId}`, {
-        method: 'DELETE',
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      if (res.ok) {
-        fetchProducts();
-      }
-    } catch (error) {
-      console.error('Error deleting product:', error);
-    }
+    await deleteProduct(productId);
   };
 
   const filteredProducts = products.filter(product =>
@@ -158,7 +144,7 @@ const AdminProducts = () => {
                           <Edit size={18} />
                         </button>
                         <button
-                          onClick={() => deleteProduct(product.id)}
+                          onClick={() => handleDelete(product.id)}
                           className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
                         >
                           <Trash2 size={18} />
@@ -176,7 +162,7 @@ const AdminProducts = () => {
       {/* Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl w-full max-w-md p-6 relative">
+          <div className="bg-white rounded-2xl w-full max-w-md p-6 relative max-h-[90vh] overflow-y-auto">
             <button
               onClick={() => setShowModal(false)}
               className="absolute top-4 right-4 p-2 hover:bg-gray-100 rounded-full"
@@ -223,6 +209,7 @@ const AdminProducts = () => {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Categoría</label>
                 <select
+                  required
                   value={formData.categoryId}
                   onChange={(e) => setFormData({ ...formData, categoryId: e.target.value })}
                   className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500"
@@ -232,6 +219,18 @@ const AdminProducts = () => {
                     <option key={cat.id} value={cat.id}>{cat.name}</option>
                   ))}
                 </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Imágenes {editingProduct && '(opcional, reemplaza las existentes)'}
+                </label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  onChange={(e) => setImageFiles(Array.from(e.target.files))}
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500"
+                />
               </div>
               <button
                 type="submit"

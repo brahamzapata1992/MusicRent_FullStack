@@ -119,13 +119,26 @@ const AdminProducts = () => {
                   </td>
                 </tr>
               ) : (
-                filteredProducts.map(product => (
+                filteredProducts.map(product => {
+                  // Handle base64 imageData format from API
+                  const getProductImage = () => {
+                    if (product.images?.[0]?.imageData) {
+                      return `data:image/jpeg;base64,${product.images[0].imageData}`;
+                    }
+                    if (product.images?.[0]?.url) {
+                      return `${API_URL}${product.images[0].url}`;
+                    }
+                    return '/placeholder-instrument.png';
+                  };
+                  
+                  return (
                   <tr key={product.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4">
                       <img
-                        src={product.images?.[0]?.url ? `${API_URL}${product.images[0].url}` : '/placeholder-instrument.png'}
+                        src={getProductImage()}
                         alt={product.name}
                         className="w-16 h-16 object-cover rounded-xl bg-gray-100"
+                        onError={(e) => { e.target.src = '/placeholder-instrument.png'; }}
                       />
                     </td>
                     <td className="px-6 py-4 font-medium text-gray-800 max-w-xs truncate">
@@ -152,7 +165,7 @@ const AdminProducts = () => {
                       </div>
                     </td>
                   </tr>
-                ))
+                )})
               )}
             </tbody>
           </table>

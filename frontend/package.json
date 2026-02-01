@@ -1,0 +1,6 @@
+{
+  "name": "music-rent-wrapper",
+  "scripts": {
+    "start": "cd /app && yarn dev"
+  }
+}

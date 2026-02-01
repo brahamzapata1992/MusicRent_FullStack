@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import { ArrowLeft, Heart, Share2, Star, Calendar, Sparkles, Music, Award, X } from 'lucide-react';
 import { useApp } from '../context/AppContext';
+import { getBase64ImageSrc } from '../config/api';
 import "react-datepicker/dist/react-datepicker.css";
 
 // Images

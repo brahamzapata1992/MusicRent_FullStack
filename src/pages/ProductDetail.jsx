@@ -132,8 +132,20 @@ const ProductDetail = () => {
   }
 
   const images = product.images || [];
-  const currentImage = images[selectedImage]?.url 
-    ? `${API_URL}${images[selectedImage].url}`
+  
+  // Get image - handle base64 imageData from backend
+  const getImageSrc = (img) => {
+    if (img?.imageData) {
+      return `data:image/jpeg;base64,${img.imageData}`;
+    }
+    if (img?.url) {
+      return `${API_URL}${img.url}`;
+    }
+    return '/placeholder-instrument.png';
+  };
+  
+  const currentImage = images[selectedImage] 
+    ? getImageSrc(images[selectedImage])
     : '/placeholder-instrument.png';
 
   const favorite = isFavorite(product.id);

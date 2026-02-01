@@ -88,9 +88,13 @@ const AdminCategories = () => {
                 </tr>
               ) : (
                 filteredCategories.map(category => {
-                  // Handle base64 img data from API
+                  // Handle base64 img data from API (could be SVG or JPEG)
                   const getCategoryImage = () => {
                     if (category.img) {
+                      // Detect if it's SVG (starts with PHN2 which is <svg in base64)
+                      if (category.img.startsWith('PHN2') || category.img.startsWith('PD94')) {
+                        return `data:image/svg+xml;base64,${category.img}`;
+                      }
                       return `data:image/jpeg;base64,${category.img}`;
                     }
                     if (category.urlImg) {

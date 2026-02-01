@@ -4,6 +4,22 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8081';
 
 export default API_URL;
 
+// Helper to get base64 image with correct MIME type
+export const getBase64ImageSrc = (base64String) => {
+  if (!base64String) return null;
+  
+  // Detect SVG (starts with PHN2 = <svg or PD94 = <?xml)
+  if (base64String.startsWith('PHN2') || base64String.startsWith('PD94')) {
+    return `data:image/svg+xml;base64,${base64String}`;
+  }
+  // Detect PNG (starts with iVBOR)
+  if (base64String.startsWith('iVBOR')) {
+    return `data:image/png;base64,${base64String}`;
+  }
+  // Default to JPEG
+  return `data:image/jpeg;base64,${base64String}`;
+};
+
 // Endpoints de referencia:
 // GET  /api/public/products - Lista de productos
 // GET  /api/public/products/:id - Detalle de producto

@@ -137,7 +137,7 @@ const ProductDetail = () => {
   // Get image - handle base64 imageData from backend
   const getImageSrc = (img) => {
     if (img?.imageData) {
-      return `data:image/jpeg;base64,${img.imageData}`;
+      return getBase64ImageSrc(img.imageData);
     }
     if (img?.url) {
       return `${API_URL}${img.url}`;

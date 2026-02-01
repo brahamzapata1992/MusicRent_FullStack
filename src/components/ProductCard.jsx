@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Heart } from 'lucide-react';
 import { useApp } from '../context/AppContext';
+import { getBase64ImageSrc } from '../config/api';
 
 const ProductCard = ({ product }) => {
   const { toggleFavorite, isFavorite } = useApp();
@@ -9,7 +10,7 @@ const ProductCard = ({ product }) => {
   // Get image - handle base64 imageData
   const getImageSrc = () => {
     if (product.images && product.images[0] && product.images[0].imageData) {
-      return `data:image/jpeg;base64,${product.images[0].imageData}`;
+      return getBase64ImageSrc(product.images[0].imageData);
     }
     return '/placeholder-instrument.png';
   };

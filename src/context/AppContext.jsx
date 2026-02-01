@@ -3,24 +3,6 @@ import API_URL from '../config/api';
 
 const AppContext = createContext();
 
-// Mock data for development without backend
-const MOCK_CATEGORIES = [
-  { id: '1', name: 'Cuerdas', description: 'Guitarras, bajos, violines y más instrumentos de cuerda' },
-  { id: '2', name: 'Percusión', description: 'Baterías, tambores, platillos y más' },
-  { id: '3', name: 'Vientos', description: 'Saxofones, trompetas, flautas y más' },
-];
-
-const MOCK_PRODUCTS = [
-  { id: '1', name: 'Guitarra Fender CD60s', description: 'Guitarra acústica de alta calidad, perfecta para principiantes y profesionales. Tapa de abeto sólido, aros y fondo de caoba.', price: 30000, category: { id: '1', name: 'Cuerdas' }, images: [] },
-  { id: '2', name: 'Guitarra Gibson Les Paul', description: 'La legendaria Les Paul con cuerpo de caoba y tapa de arce. Pastillas humbucker para un sonido potente y versátil.', price: 45000, category: { id: '1', name: 'Cuerdas' }, images: [] },
-  { id: '3', name: 'Bajo Eléctrico Fender Jazz', description: 'El bajo más versátil del mundo. Mástil de arce, cuerpo de aliso y pastillas de bobina simple.', price: 35000, category: { id: '1', name: 'Cuerdas' }, images: [] },
-  { id: '4', name: 'Batería Pearl Export', description: 'Kit de batería completo de 5 piezas. Cascos de álamo/caoba para un sonido cálido y potente.', price: 50000, category: { id: '2', name: 'Percusión' }, images: [] },
-  { id: '5', name: 'Saxofón Alto Yamaha YAS-280', description: 'Saxofón alto ideal para estudiantes. Excelente entonación y respuesta fácil en todos los registros.', price: 40000, category: { id: '3', name: 'Vientos' }, images: [] },
-  { id: '6', name: 'Trompeta Bach Stradivarius', description: 'La trompeta profesional por excelencia. Campana de latón dorado y válvulas Monel.', price: 55000, category: { id: '3', name: 'Vientos' }, images: [] },
-  { id: '7', name: 'Violín Stradivarius Replica', description: 'Réplica de alta calidad del famoso violín. Madera de abeto y arce envejecido.', price: 60000, category: { id: '1', name: 'Cuerdas' }, images: [] },
-  { id: '8', name: 'Cajón Peruano Profesional', description: 'Cajón de madera de cedro con cuerda ajustable. Sonido auténtico y potente.', price: 25000, category: { id: '2', name: 'Percusión' }, images: [] },
-];
-
 export const useApp = () => {
   const context = useContext(AppContext);
   if (!context) {
@@ -43,7 +25,7 @@ export const AppProvider = ({ children }) => {
     return saved ? JSON.parse(saved) : [];
   });
 
-  // Fetch products
+  // Fetch products from API
   const fetchProducts = async () => {
     setLoading(true);
     try {
@@ -52,19 +34,18 @@ export const AppProvider = ({ children }) => {
         const data = await res.json();
         setProducts(data);
       } else {
-        // Use mock data if API fails
-        setProducts(MOCK_PRODUCTS);
+        console.error('Error fetching products:', res.status);
+        setProducts([]);
       }
     } catch (error) {
       console.error('Error fetching products:', error);
-      // Use mock data if API fails
-      setProducts(MOCK_PRODUCTS);
+      setProducts([]);
     } finally {
       setLoading(false);
     }
   };
 
-  // Fetch categories
+  // Fetch categories from API
   const fetchCategories = async () => {
     try {
       const res = await fetch(`${API_URL}/api/public/categories`);
@@ -72,13 +53,12 @@ export const AppProvider = ({ children }) => {
         const data = await res.json();
         setCategories(data);
       } else {
-        // Use mock data if API fails
-        setCategories(MOCK_CATEGORIES);
+        console.error('Error fetching categories:', res.status);
+        setCategories([]);
       }
     } catch (error) {
       console.error('Error fetching categories:', error);
-      // Use mock data if API fails
-      setCategories(MOCK_CATEGORIES);
+      setCategories([]);
     }
   };
 
@@ -98,22 +78,10 @@ export const AppProvider = ({ children }) => {
         localStorage.setItem('user', JSON.stringify(data.user));
         return { success: true };
       }
-      return { success: false, message: data.message || 'Error al iniciar sesión' };
+      return { success: false, message: data.message || 'Credenciales incorrectas' };
     } catch (error) {
-      // Mock login for development
-      const mockUser = {
-        id: '1',
-        name: email.split('@')[0],
-        surname: 'Usuario',
-        email: email,
-        role: email.includes('admin') ? 'admin' : 'user',
-      };
-      const mockToken = 'mock-token-' + Date.now();
-      setToken(mockToken);
-      setUser(mockUser);
-      localStorage.setItem('token', mockToken);
-      localStorage.setItem('user', JSON.stringify(mockUser));
-      return { success: true };
+      console.error('Login error:', error);
+      return { success: false, message: 'Error de conexión con el servidor' };
     }
   };
 
@@ -131,8 +99,8 @@ export const AppProvider = ({ children }) => {
       }
       return { success: false, message: data.message || 'Error al registrar' };
     } catch (error) {
-      // Mock register for development - always success
-      return { success: true };
+      console.error('Register error:', error);
+      return { success: false, message: 'Error de conexión con el servidor' };
     }
   };
 

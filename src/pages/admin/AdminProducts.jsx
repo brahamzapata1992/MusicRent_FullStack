@@ -124,7 +124,7 @@ const AdminProducts = () => {
                   // Handle base64 imageData format from API
                   const getProductImage = () => {
                     if (product.images?.[0]?.imageData) {
-                      return `data:image/jpeg;base64,${product.images[0].imageData}`;
+                      return getBase64ImageSrc(product.images[0].imageData);
                     }
                     if (product.images?.[0]?.url) {
                       return `${API_URL}${product.images[0].url}`;

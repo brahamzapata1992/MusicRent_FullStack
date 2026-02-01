@@ -69,58 +69,42 @@ const ProductDetail = () => {
     setReservationStep('loading');
     setErrorMessage('');
 
-    // Prepare reservation payload
+    // Prepare reservation payload for Spring Boot API
     const payload = {
-      productId: product.id,
-      productName: product.name,
-      startDate: startDate?.toISOString(),
-      endDate: endDate?.toISOString(),
-      totalDays: calculateTotalDays(),
-      pricePerDay: product.price,
-      totalPrice: calculateTotalPrice(),
-      customer: {
-        name: reservationData.name,
-        surname: reservationData.surname,
-        email: reservationData.email,
-        address: reservationData.address,
-        phone: reservationData.phone,
-      }
+      userId: user.userId,
+      productId: parseInt(product.id),
+      startDate: startDate?.toISOString().split('T')[0], // Format: YYYY-MM-DD
+      endDate: endDate?.toISOString().split('T')[0],
     };
 
-    try {
-      const res = await fetch(`${API_URL}/api/customer/reservation/create`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(payload),
-      });
+    const result = await createReservation(payload);
 
-      if (res.ok) {
-        const data = await res.json();
-        setReservationResult({
-          ...payload,
-          reservationId: data.id || 'RES-' + Date.now(),
-          createdAt: new Date().toISOString(),
-        });
-        setReservationStep('success');
-      } else if (res.status === 400) {
-        const errorData = await res.json();
-        setErrorMessage(errorData.message || 'Error en la solicitud. Verifica los datos e intenta de nuevo.');
-        setReservationStep('error');
-      } else {
-        throw new Error('Error en la reserva');
-      }
-    } catch (error) {
-      console.error('Error creating reservation:', error);
-      // For development without backend - simulate success
+    if (result.success) {
       setReservationResult({
-        ...payload,
-        reservationId: 'RES-' + Date.now(),
+        productId: product.id,
+        productName: product.name,
+        startDate: startDate?.toISOString(),
+        endDate: endDate?.toISOString(),
+        totalDays: calculateTotalDays(),
+        pricePerDay: product.price,
+        totalPrice: calculateTotalPrice(),
+        reservationId: result.data?.id || 'RES-' + Date.now(),
         createdAt: new Date().toISOString(),
+        customer: {
+          name: reservationData.name,
+          surname: reservationData.surname,
+          email: reservationData.email,
+          address: reservationData.address,
+          phone: reservationData.phone,
+        }
       });
       setReservationStep('success');
+    } else if (result.status === 400) {
+      setErrorMessage(result.message || 'Error en la solicitud. Verifica los datos e intenta de nuevo.');
+      setReservationStep('error');
+    } else {
+      setErrorMessage(result.message || 'Error al crear la reserva');
+      setReservationStep('error');
     }
   };
 

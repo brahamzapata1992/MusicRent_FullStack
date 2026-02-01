@@ -111,12 +111,14 @@ export const AppProvider = ({ children }) => {
       });
       const data = await res.json();
       if (res.ok) {
+        // userRole from API comes as "ADMIN" or "CUSTOMER" - normalize to uppercase
+        const normalizedRole = data.userRole?.toUpperCase() || 'CUSTOMER';
         const userData = {
           userId: data.userId,
           email: data.username,
           name: data.name,
           lastName: data.lastName,
-          role: data.userRole,
+          role: normalizedRole,
         };
         setToken(data.token);
         setUser(userData);

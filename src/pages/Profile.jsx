@@ -206,27 +206,40 @@ const Profile = () => {
                 </div>
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {favoriteProducts.map(product => (
-                    <Link
-                      key={product.id}
-                      to={`/producto/${product.id}`}
-                      className="flex gap-4 p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors"
-                    >
-                      <img
-                        src={product.images?.[0]?.url ? `${API_URL}${product.images[0].url}` : '/placeholder-instrument.png'}
-                        alt={product.name}
-                        className="w-20 h-20 object-cover rounded-lg bg-gray-200"
-                      />
-                      <div className="flex-1">
-                        <h3 className="font-semibold text-gray-800 line-clamp-2">{product.name}</h3>
-                        <div className="flex items-center gap-1 mt-1">
-                          <Star size={14} className="text-yellow-400 fill-yellow-400" />
-                          <span className="text-sm text-gray-500">4.5</span>
+                  {favoriteProducts.map(product => {
+                    // Handle base64 imageData format (same as ProductCard)
+                    const getImageSrc = () => {
+                      if (product.images && product.images[0] && product.images[0].imageData) {
+                        return `data:image/jpeg;base64,${product.images[0].imageData}`;
+                      }
+                      return '/placeholder-instrument.png';
+                    };
+                    
+                    return (
+                      <Link
+                        key={product.id}
+                        to={`/producto/${product.id}`}
+                        className="flex gap-4 p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors"
+                      >
+                        <img
+                          src={getImageSrc()}
+                          alt={product.name}
+                          className="w-20 h-20 object-cover rounded-lg bg-gray-200"
+                          onError={(e) => {
+                            e.target.src = '/placeholder-instrument.png';
+                          }}
+                        />
+                        <div className="flex-1">
+                          <h3 className="font-semibold text-gray-800 line-clamp-2">{product.name}</h3>
+                          <div className="flex items-center gap-1 mt-1">
+                            <Star size={14} className="text-yellow-400 fill-yellow-400" />
+                            <span className="text-sm text-gray-500">4.5</span>
+                          </div>
+                          <p className="text-primary-500 font-bold mt-1">${product.price?.toLocaleString()}/día</p>
                         </div>
-                        <p className="text-primary-500 font-bold mt-1">${product.price?.toLocaleString()}/día</p>
-                      </div>
-                    </Link>
-                  ))}
+                      </Link>
+                    );
+                  })}
                 </div>
               )}
             </div>

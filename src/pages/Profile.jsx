@@ -4,7 +4,7 @@ import { User, Mail, Phone, MapPin, Calendar, Package, LogOut, Heart, ChevronRig
 import { useApp } from '../context/AppContext';
 
 const Profile = () => {
-  const { user, logout, favorites, products, API_URL, fetchReservationHistory } = useApp();
+  const { user, logout, favorites, products, fetchReservationHistory } = useApp();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('reservas');
   const [reservations, setReservations] = useState([]);

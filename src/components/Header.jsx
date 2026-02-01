@@ -44,7 +44,7 @@ const Header = () => {
                 
                 {userMenuOpen && (
                   <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg py-2 border border-gray-100">
-                    {user.role === 'admin' && (
+                    {user.role?.toUpperCase() === 'ADMIN' && (
                       <Link
                         to="/admin"
                         onClick={() => setUserMenuOpen(false)}
@@ -112,7 +112,7 @@ const Header = () => {
                   </div>
                   <span className="text-gray-700 font-medium">{user.name || 'Usuario'}</span>
                 </div>
-                {user.role === 'admin' && (
+                {user.role?.toUpperCase() === 'ADMIN' && (
                   <Link
                     to="/admin"
                     onClick={() => setMobileMenuOpen(false)}

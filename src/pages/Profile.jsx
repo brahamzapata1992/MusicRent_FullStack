@@ -35,69 +35,7 @@ const Profile = () => {
       }
     } catch (error) {
       console.error('Error fetching reservations:', error);
-      // Mock data for development
-      setReservations([
-        {
-          id: 'RES-1706486400001',
-          productId: '1',
-          productName: 'Guitarra Fender CD60s',
-          productImage: '/placeholder-instrument.png',
-          startDate: '2024-04-01T00:00:00Z',
-          endDate: '2024-04-05T00:00:00Z',
-          totalDays: 4,
-          pricePerDay: 30000,
-          totalPrice: 120000,
-          status: 'completed',
-          customer: {
-            name: user?.name || 'Juan',
-            surname: user?.surname || 'Pérez',
-            email: user?.email || 'juan@email.com',
-            phone: '+57 300 123 4567',
-            address: 'Calle 123 #45-67, Bogotá'
-          },
-          createdAt: '2024-03-25T10:30:00Z'
-        },
-        {
-          id: 'RES-1706486400002',
-          productId: '4',
-          productName: 'Batería Pearl Export',
-          productImage: '/placeholder-instrument.png',
-          startDate: '2024-04-10T00:00:00Z',
-          endDate: '2024-04-15T00:00:00Z',
-          totalDays: 5,
-          pricePerDay: 50000,
-          totalPrice: 250000,
-          status: 'active',
-          customer: {
-            name: user?.name || 'Juan',
-            surname: user?.surname || 'Pérez',
-            email: user?.email || 'juan@email.com',
-            phone: '+57 300 123 4567',
-            address: 'Calle 123 #45-67, Bogotá'
-          },
-          createdAt: '2024-04-01T14:20:00Z'
-        },
-        {
-          id: 'RES-1706486400003',
-          productId: '5',
-          productName: 'Saxofón Alto Yamaha YAS-280',
-          productImage: '/placeholder-instrument.png',
-          startDate: '2024-05-01T00:00:00Z',
-          endDate: '2024-05-03T00:00:00Z',
-          totalDays: 2,
-          pricePerDay: 40000,
-          totalPrice: 80000,
-          status: 'pending',
-          customer: {
-            name: user?.name || 'Juan',
-            surname: user?.surname || 'Pérez',
-            email: user?.email || 'juan@email.com',
-            phone: '+57 300 123 4567',
-            address: 'Calle 123 #45-67, Bogotá'
-          },
-          createdAt: '2024-04-28T09:15:00Z'
-        }
-      ]);
+      setReservations([]);
     } finally {
       setLoading(false);
     }

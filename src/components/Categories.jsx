@@ -4,7 +4,8 @@ import percusionImg from '../assets/categorias/imagen_hombre_percusion.svg';
 import vientosImg from '../assets/categorias/imagen_hombre_vientos.svg';
 import cuerdasImg from '../assets/categorias/imagen_hombre_cuerdas.svg';
 
-const categoryImages = {
+// Fallback images for categories without base64 img
+const categoryFallbacks = {
   'percusion': percusionImg,
   'vientos': vientosImg,
   'cuerdas': cuerdasImg,
@@ -14,6 +15,11 @@ const Categories = ({ onCategorySelect }) => {
   const { categories } = useApp();
 
   const getCategoryImage = (category) => {
+    // First try to use base64 img from API
+    if (category.img) {
+      return `data:image/jpeg;base64,${category.img}`;
+    }
+    // Fallback to local SVG images
     const name = category.name?.toLowerCase() || '';
     if (name.includes('percus')) return percusionImg;
     if (name.includes('viento')) return vientosImg;

@@ -21,7 +21,7 @@ const AdminUsers = () => {
 
   const handleRoleChange = async (email, currentRole) => {
     const newRole = currentRole === 'ADMIN' ? 'CUSTOMER' : 'ADMIN';
-    const success = await changeUserRole(email, newRole.toLowerCase());
+    const success = await changeUserRole(email, newRole);
     if (success) {
       loadUsers();
     }

@@ -2,64 +2,38 @@ import { useState } from 'react';
 import { Search, Trash2, Plus, X } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 
-import percusionImg from '../../assets/categorias/imagen_hombre_percusion.svg';
-import vientosImg from '../../assets/categorias/imagen_hombre_vientos.svg';
-import cuerdasImg from '../../assets/categorias/imagen_hombre_cuerdas.svg';
-
 const AdminCategories = () => {
-  const { categories, fetchCategories, API_URL, token } = useApp();
+  const { categories, createCategory, deleteCategory, API_URL } = useApp();
   const [search, setSearch] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [newCategory, setNewCategory] = useState({ name: '', description: '' });
+  const [imageFile, setImageFile] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const getCategoryImage = (category) => {
-    const name = category.name?.toLowerCase() || '';
-    if (name.includes('percus')) return percusionImg;
-    if (name.includes('viento')) return vientosImg;
-    return cuerdasImg;
-  };
-
-  const createCategory = async (e) => {
+  const handleCreate = async (e) => {
     e.preventDefault();
     setLoading(true);
     
-    try {
-      const res = await fetch(`${API_URL}/api/admin/categories`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(newCategory),
-      });
-      
-      if (res.ok) {
-        fetchCategories();
-        setShowModal(false);
-        setNewCategory({ name: '', description: '' });
-      }
-    } catch (error) {
-      console.error('Error creating category:', error);
-    } finally {
-      setLoading(false);
+    const formData = new FormData();
+    formData.append('name', newCategory.name);
+    formData.append('description', newCategory.description);
+    if (imageFile) {
+      formData.append('img', imageFile);
     }
+
+    const result = await createCategory(formData);
+    
+    if (result.success) {
+      setShowModal(false);
+      setNewCategory({ name: '', description: '' });
+      setImageFile(null);
+    }
+    setLoading(false);
   };
 
-  const deleteCategory = async (categoryId) => {
+  const handleDelete = async (categoryId) => {
     if (!confirm('¿Estás seguro de eliminar esta categoría?')) return;
-    
-    try {
-      const res = await fetch(`${API_URL}/api/admin/categories/${categoryId}`, {
-        method: 'DELETE',
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      if (res.ok) {
-        fetchCategories();
-      }
-    } catch (error) {
-      console.error('Error deleting category:', error);
-    }
+    await deleteCategory(categoryId);
   };
 
   const filteredCategories = categories.filter(cat =>
@@ -98,7 +72,7 @@ const AdminCategories = () => {
           <table className="w-full">
             <thead>
               <tr className="bg-primary-50">
-                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Icono</th>
+                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Imagen</th>
                 <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">ID</th>
                 <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Nombre</th>
                 <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Descripción</th>
@@ -117,9 +91,9 @@ const AdminCategories = () => {
                   <tr key={category.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4">
                       <img
-                        src={getCategoryImage(category)}
+                        src={category.urlImg ? `${API_URL}${category.urlImg}` : '/placeholder-category.png'}
                         alt={category.name}
-                        className="w-12 h-12 object-contain"
+                        className="w-12 h-12 object-cover rounded-lg bg-gray-100"
                       />
                     </td>
                     <td className="px-6 py-4 text-gray-500 font-mono text-sm">{category.id}</td>
@@ -127,7 +101,7 @@ const AdminCategories = () => {
                     <td className="px-6 py-4 text-gray-600 max-w-xs truncate">{category.description}</td>
                     <td className="px-6 py-4">
                       <button
-                        onClick={() => deleteCategory(category.id)}
+                        onClick={() => handleDelete(category.id)}
                         className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
                       >
                         <Trash2 size={18} />
@@ -154,7 +128,7 @@ const AdminCategories = () => {
 
             <h2 className="text-xl font-bold text-gray-800 mb-6">Nueva Categoría</h2>
 
-            <form onSubmit={createCategory} className="space-y-4">
+            <form onSubmit={handleCreate} className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
                 <input
@@ -174,6 +148,15 @@ const AdminCategories = () => {
                   className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 resize-none"
                   rows={3}
                   placeholder="Descripción de la categoría"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Imagen</label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => setImageFile(e.target.files[0])}
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500"
                 />
               </div>
               <button

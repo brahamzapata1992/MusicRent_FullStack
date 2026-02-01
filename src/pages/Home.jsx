@@ -23,12 +23,14 @@ const Home = () => {
     }
   }, [categoryParam]);
 
-  // Filter products
+  // Filter products - check both category.id and category_id (direct from DB)
   const filteredProducts = products.filter(product => {
     const matchesSearch = !searchTerm || 
       product.name?.toLowerCase().includes(searchTerm.toLowerCase());
+    // Support both nested category.id and flat category_id from API
+    const productCategoryId = product.category?.id || product.category_id || product.categoryId;
     const matchesCategory = !selectedCategory || 
-      product.category?.id?.toString() === selectedCategory;
+      productCategoryId?.toString() === selectedCategory.toString();
     return matchesSearch && matchesCategory;
   });
 

@@ -87,13 +87,26 @@ const AdminCategories = () => {
                   </td>
                 </tr>
               ) : (
-                filteredCategories.map(category => (
+                filteredCategories.map(category => {
+                  // Handle base64 img data from API
+                  const getCategoryImage = () => {
+                    if (category.img) {
+                      return `data:image/jpeg;base64,${category.img}`;
+                    }
+                    if (category.urlImg) {
+                      return `${API_URL}${category.urlImg}`;
+                    }
+                    return '/placeholder-category.png';
+                  };
+                  
+                  return (
                   <tr key={category.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4">
                       <img
-                        src={category.urlImg ? `${API_URL}${category.urlImg}` : '/placeholder-category.png'}
+                        src={getCategoryImage()}
                         alt={category.name}
                         className="w-12 h-12 object-cover rounded-lg bg-gray-100"
+                        onError={(e) => { e.target.src = '/placeholder-category.png'; }}
                       />
                     </td>
                     <td className="px-6 py-4 text-gray-500 font-mono text-sm">{category.id}</td>
@@ -108,7 +121,7 @@ const AdminCategories = () => {
                       </button>
                     </td>
                   </tr>
-                ))
+                )})
               )}
             </tbody>
           </table>

@@ -29,7 +29,7 @@ const AdminProducts = () => {
       name: product.name || '',
       description: product.description || '',
       price: product.price?.toString() || '',
-      categoryId: product.category?.id?.toString() || '',
+      categoryId: (product.category?.id || product.category_id || product.categoryId)?.toString() || '',
     });
     setImageFiles([]);
     setShowModal(true);

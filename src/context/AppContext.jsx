@@ -124,7 +124,7 @@ export const AppProvider = ({ children }) => {
         localStorage.setItem('user', JSON.stringify(userData));
         // Fetch user favorites after login
         fetchUserFavorites(data.userId);
-        return { success: true };
+        return { success: true, user: userData };
       }
       return { success: false, message: data.message || 'Credenciales incorrectas' };
     } catch (error) {

@@ -1,6 +1,6 @@
 // API Configuration
 // URL de API desplegada, ya sea local o en producción
-const API_URL = import.meta.env.VITE_API_URL || 'backendmusicrent-production.up.railway.app';
+const API_URL = import.meta.env.VITE_API_URL || 'http://backendmusicrent-production.up.railway.app';
 
 export default API_URL;
 
